@@ -22,7 +22,7 @@ Keysee provides simple, clear input visuals without distracting from the main co
 ## Notes
 - ⚠️ Some antivirus software may flag this app because it uses system hooks to detect keyboard and mouse input.
 The code is open-source, and nothing is sent anywhere — no tracking, no network activity.
-If you're unsure, you can build it yourself. Totally up to you.
+If you're unsure, you can [you can build it yourself](BUILD.md). Totally up to you.
 - For now, the app is available for Windows 10/11 only.
 
 ## Download
