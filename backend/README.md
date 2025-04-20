@@ -6,5 +6,5 @@ go run .
 
 ## Build
 ```bash
-go build -o ../frontend/keysee-backend.exe .
+go build -o ../frontend/keysee-app-backend.exe .
 ```

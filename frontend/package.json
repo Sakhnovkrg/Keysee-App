@@ -1,7 +1,7 @@
 {
   "name": "keysee",
   "productName": "Keysee",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist-electron/main/index.js",
   "description": "Input visualizer tool",
   "author": "Alexandr Sakhnov",

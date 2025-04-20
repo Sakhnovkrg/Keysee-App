@@ -17,7 +17,7 @@ onMounted(async () => {
     <div class="header">
       <img style="width: 80px;" src="../assets/keysee.svg" class="logo" alt="Keysee logo" />
     </div>
-    <div class="version">v1.0.0</div>
+    <div class="version">v1.0.1</div>
 
 
     <p>{{ t('about.wtf') }}</p>
