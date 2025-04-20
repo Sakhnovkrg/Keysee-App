@@ -7,9 +7,18 @@ If you prefer to build Keysee yourself, here's how to do it.
 ## ✅ Requirements
 
 - [Go 1.24.1](https://go.dev/dl/) or newer  
-- [Node.js v22.14.0](https://nodejs.org/en/download)  
+- [Node.js v22.14.0](https://nodejs.org/en/download) or newer (might work with v18+, not tested)
 - [Git](https://git-scm.com/downloads)  
 - Windows 10 or newer (Keysee is Windows-only)
+
+---
+
+## 📥 Clone the repository
+
+```bash
+git clone https://github.com/Sakhnovkrg/Keysee-App.git
+cd Keysee-App
+```
 
 ---
 
@@ -38,6 +47,7 @@ npm install
 This will place the binary in the frontend folder:
 
 ```bash
+cd ../backend
 go build -o ../frontend/keysee-app-backend.exe
 ```
 
