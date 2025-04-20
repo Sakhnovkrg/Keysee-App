@@ -1,0 +1,57 @@
+{
+    "settings": {
+        "updated": "Settings applied",
+        "restoreDefaults": "Restore defaults",
+        "restoreDefaultsConfirm": "Are you sure?",
+        "save": "Save",
+        "generalSettings": {
+            "groupTitle": "General settings",
+            "language": "Language"
+        },
+        "overlay": {
+            "groupTitle": "Overlay appearance",
+            "backgroundColor": "Background",
+            "position": "Position",
+            "positionLeft": "Align left",
+            "positionCenter": "Align center",
+            "positionRight": "Align right",
+            "bottomOffset": "Bottom offset",
+            "sideOffset": "Side offset"
+        },
+        "input": {
+            "groupTitle": "Input appearance",
+            "singleKey": "Single key",
+            "keyCombo": "Key combo",
+            "mouse": "Mouse",
+            "fontSize": "Font size",
+            "font": "Font",
+            "eventDisplayTime": "Event display time"
+        },
+        "ripples": {
+            "groupTitle": "Mouse click ripples",
+            "rippleSize": "Ripple size",
+            "rippleTransparency": "Ripple transparency",
+            "rippleDuration": "Ripple duration",
+            "leftButton": "Left",
+            "middleButton": "Middle",
+            "rightButton": "Right"
+        },
+        "general": {
+            "backgroundColor": "Background",
+            "textColor": "Text",
+            "borderRadius": "Border radius",
+            "backgroundTransparency": "Background transparency"
+        }
+    },
+    "about": {
+        "wtf": "Keysee is a free and open-source tool for visualizing keyboard and mouse input. Useful for tutorials and software demonstrations.",
+        "github": "GitHub",
+        "donate": "Donate"
+    },
+    "ui": {
+        "popconfirm": {
+            "confirm": "Yes",
+            "cancel": "Cancel"
+        }
+    }
+}

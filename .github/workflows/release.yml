@@ -1,0 +1,63 @@
+name: Release Keysee
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    env:
+      GOOS: windows
+      GOARCH: amd64
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.1'
+
+      - name: Tidy Go modules
+        run: go mod tidy
+        working-directory: backend
+
+      - name: Build Go backend
+        run: go build -o ../frontend/keysee-app-backend.exe
+        working-directory: backend
+
+      - name: Setup Node.js (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Build full project
+        run: npm run build
+        working-directory: frontend
+
+      - name: Generate SHA256 for installer
+        run: |
+          $installer = Get-ChildItem -Path "frontend/release" -Filter "Keysee Setup*.exe"
+          $hash = Get-FileHash -Algorithm SHA256 $installer.FullName
+          "$($hash.Hash.ToLower()) *$($installer.Name)" | Out-File -Encoding ascii frontend/release/SHA256SUMS.txt
+        shell: pwsh
+
+      - name: Upload release artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            frontend/release/Keysee Setup*.exe
+            frontend/release/SHA256SUMS.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

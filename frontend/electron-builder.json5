@@ -1,0 +1,21 @@
+{
+  "appId": "keysee-app",
+  "productName": "Keysee",
+  "directories": {
+    "output": "release"
+  },
+  "files": [
+    "dist/**",
+    "dist-electron/**"
+  ],
+  "extraResources": [
+    {
+      "from": "keysee-app-backend.exe",
+      "to": "keysee-app-backend.exe"
+    }
+  ],
+  "asar": true,
+  "win": {
+    "icon": "public/icon.ico"
+  }
+}

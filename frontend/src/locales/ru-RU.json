@@ -1,0 +1,57 @@
+{
+    "settings": {
+        "updated": "Настройки применены",
+        "restoreDefaults": "Сбросить настройки",
+        "restoreDefaultsConfirm": "Вы уверены?",
+        "save": "Сохранить",
+        "generalSettings": {
+            "groupTitle": "Общее",
+            "language": "Язык"
+        },
+        "overlay": {
+            "groupTitle": "Внешний вид оверлея",
+            "backgroundColor": "Фон",
+            "position": "Расположение",
+            "positionLeft": "Слева",
+            "positionCenter": "По центру",
+            "positionRight": "Справа",
+            "bottomOffset": "Отступ снизу",
+            "sideOffset": "Боковой отступ"
+        },
+        "input": {
+            "groupTitle": "Внешний вид событий",
+            "singleKey": "Одиночная клавиша",
+            "keyCombo": "Комбинация клавиш",
+            "mouse": "События с мышью",
+            "fontSize": "Размер шрифта",
+            "font": "Шрифт",
+            "eventDisplayTime": "Время отображения"
+        },
+        "ripples": {
+            "groupTitle": "Клики мыши (эффект волны)",
+            "rippleSize": "Размер",
+            "rippleTransparency": "Прозрачность",
+            "rippleDuration": "Длительность анимации",
+            "leftButton": "Левой",
+            "middleButton": "Средней",
+            "rightButton": "Правой"
+        },
+        "general": {
+            "backgroundColor": "Фон",
+            "textColor": "Текст",
+            "borderRadius": "Скругление углов",
+            "backgroundTransparency": "Прозрачность фона"
+        }
+    },
+    "about": {
+        "wtf": "Keysee — это бесплатный инструмент с открытым исходным кодом для визуализации нажатий клавиш и кликов мыши. Полезен для создания обучающих материалов и демонстраций программ.",
+        "github": "Гитхаб",
+        "donate": "Поддержать"
+    },
+    "ui": {
+        "popconfirm": {
+            "confirm": "Да",
+            "cancel": "Отмена"
+        }
+    }
+}

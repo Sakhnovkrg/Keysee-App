@@ -1,0 +1,48 @@
+{
+  "name": "keysee",
+  "productName": "Keysee",
+  "version": "1.0.0",
+  "main": "dist-electron/main/index.js",
+  "description": "Input visualizer tool",
+  "author": "Alexandr Sakhnov",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "electron",
+    "rollup",
+    "vite",
+    "vue3",
+    "vue"
+  ],
+  "debug": {
+    "env": {
+      "VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
+    "build": "vue-tsc --noEmit && vite build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder"
+  },
+  "devDependencies": {
+    "@types/semver": "^7.7.0",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "app-builder-lib": "^23.6.0",
+    "cross-env": "^7.0.3",
+    "electron": "^29.1.1",
+    "electron-builder": "^23.6.0",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.5",
+    "vite-plugin-electron": "^0.28.4",
+    "vite-plugin-electron-renderer": "^0.14.5",
+    "vue": "^3.4.21",
+    "vue-tsc": "^2.0.6"
+  },
+  "dependencies": {
+    "electron-store": "8.2.0",
+    "element-plus": "^2.9.7",
+    "semver": "^7.7.1",
+    "vue-i18n": "^11.1.3"
+  }
+}

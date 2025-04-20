@@ -1,0 +1,27 @@
+{
+    "window": {
+        "about": {
+            "title": "About Keysee"
+        },
+        "settings": {
+            "title": "Keysee settings"
+        }
+    },
+    "general": {
+        "error": "Error"
+    },
+    "errors": {
+        "backendMissing": "Keysee backend is missing. Please reinstall the application."
+    },
+    "update": {
+        "availableTitle": "New version!",
+        "availableMessage": "Version {version} is available for download.",
+        "downloadButton": "Download",
+        "laterButton": "Remind me later"
+    },
+    "tray": {
+        "about": "About",
+        "settings": "Settings",
+        "quit": "Quit"
+    }
+}

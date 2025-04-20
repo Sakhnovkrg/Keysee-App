@@ -1,0 +1,165 @@
+:root {
+  --font-family: 'Segoe UI';
+  --bg: #000000;
+  --bg-transparency: 80%;
+  --key-border-radius: 4px;
+  --overlay-border-radius: 8px;
+  --font-size: 16px;
+  --overlay-position: center;
+
+  --key-event-bg: #FFFFFF;
+  --combo-event-bg: #00FF88;
+  --mouse-event-bg: #FFC800;
+
+  --key-event-color: #000000;
+  --combo-event-color: #000000;
+  --mouse-event-color: #000000;
+
+  --event-transparency: 30%;
+
+  --ripple-size: 16px;
+  --ripple-duration: 600ms;
+  --ripple-left: #FFC800;
+  --ripple-right: #FF5555;
+  --ripple-middle: #00AAFF;
+  --ripple-transparency: 0; /* 0 - 1 */
+
+  --bottom-offset: 50px;
+  --side-offset: 15px;
+}
+
+html,
+body {
+  font-size: var(--font-size);
+  background: transparent !important;
+  font-family: var(--font-family), 'Segoe UI', sans-serif;
+}
+
+.overlay {
+  position: fixed;
+  bottom: var(--bottom-offset);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: var(--overlay-position);
+  align-items: center;
+  z-index: 9999;
+  pointer-events: none;
+  width: calc(100% - var(--side-offset) * 2);
+}
+
+.events {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: color-mix(in srgb, transparent var(--bg-transparency), var(--bg));
+  padding: 0.5rem;
+  border-radius: var(--overlay-border-radius);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.4s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.event {
+  font-size: var(--font-size);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--key-border-radius);
+  background: rgba(255, 255, 255, 0.8);
+  color: #111;
+  font-weight: 600;
+}
+
+.key-event {
+  background: color-mix(in srgb, transparent var(--event-transparency), var(--key-event-bg));
+  color: var(--key-event-color);
+}
+
+.mouse-event {
+  background: color-mix(in srgb, transparent var(--event-transparency), var(--mouse-event-bg));
+  color: var(--mouse-event-color);
+}
+
+.combo-event {
+  background: color-mix(in srgb, transparent var(--event-transparency), var(--combo-event-bg));
+  color: var(--combo-event-color);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pulse {
+  animation: pulse 0.3s ease;
+}
+
+.wrapper-fade-enter-active,
+.wrapper-fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.wrapper-fade-enter-from,
+.wrapper-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.ripples {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: calc(1 - var(--ripple-transparency));
+}
+
+.ripple {
+  position: absolute;
+  width: var(--ripple-size);
+  height: var(--ripple-size);
+  border: 1px solid;
+  border-radius: 50%;
+  animation: rippleAnim var(--ripple-duration) ease-out forwards;
+  pointer-events: none;
+}
+
+.btn-left {
+  background-color: color-mix(in srgb, transparent 50%, var(--ripple-left));
+  border-color: var(--ripple-left);
+}
+
+
+.btn-right {
+  background-color: color-mix(in srgb, transparent 50%, var(--ripple-right));
+  border-color: var(--ripple-right);
+}
+
+.btn-middle {
+  background-color: color-mix(in srgb, transparent 50%, var(--ripple-middle));
+  border-color: var(--ripple-middle);
+}
+
+
+@keyframes rippleAnim {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.4);
+    opacity: 0;
+  }
+}

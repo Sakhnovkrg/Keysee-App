@@ -1,0 +1,5 @@
+.idea/
+*.exe
+.DS_Store
+Thumbs.db
+.github/workflows/*.log

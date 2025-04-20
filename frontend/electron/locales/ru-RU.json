@@ -1,0 +1,27 @@
+{
+    "window": {
+        "about": {
+            "title": "О программе Keysee"
+        },
+        "settings": {
+            "title": "Настройки Keysee"
+        }
+    },
+    "general": {
+        "error": "Ошибка"
+    },
+    "errors": {
+        "backendMissing": "Keysee backend не найден. Пожалуйста, переустановите программу."
+    },
+    "update": {
+        "availableTitle": "Новая версия!",
+        "availableMessage": "Доступно обновление до версии {version}.",
+        "downloadButton": "Скачать",
+        "laterButton": "Напомнить позже"
+    },
+    "tray": {
+        "about": "О программе",
+        "settings": "Настройки",
+        "quit": "Выход"
+    }
+}
