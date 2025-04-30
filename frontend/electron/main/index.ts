@@ -5,7 +5,7 @@ import path from 'node:path'
 import os from 'node:os'
 import fs from 'node:fs'
 import { spawn } from 'child_process'
-import store from './settingsStore'
+import store from './store'
 import { createSettingsWindow } from './settings'
 import { createAboutWindow } from './about'
 import semver from 'semver'
@@ -21,6 +21,7 @@ let win: BrowserWindow | null = null
 let backendProcess: ChildProcess | null = null
 let locale: string | undefined = undefined
 
+const APP_DATA_DIST = app.getPath('userData')
 const APP_ROOT = path.join(__dirname, '../..')
 const MAIN_DIST = path.join(APP_ROOT, 'dist-electron')
 const RENDERER_DIST = path.join(APP_ROOT, 'dist')
@@ -75,6 +76,43 @@ ipcMain.handle('settings:update', (_event, payload) => {
 
   BrowserWindow.getAllWindows().forEach(win => {
     win.webContents.send('settings-updated', payload)
+  })
+})
+
+ipcMain.handle('presets:get', () => {
+  const folderPath = path.join(APP_DATA_DIST, 'presets')
+  if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath, { recursive: true });
+  const files = fs.readdirSync(folderPath)
+
+  const presets = []
+
+  for (const file of files) {
+    if (file.endsWith('.json')) {
+        const filePath = path.join(folderPath, file);
+        try {
+            const preset = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+            const name = file.split('.json')[0]
+            if (name == 'settings') preset.name = 'Default'
+            presets.push(preset)
+        } catch (err) { }
+    }
+  }
+
+  return presets
+})
+ipcMain.handle('presets:create', (_event, payload) => {
+  const folderPath = path.join(APP_DATA_DIST, 'presets')
+
+  const filePath = path.join(folderPath, `${payload.name}.json`)
+  fs.writeFileSync(filePath, JSON.stringify(payload))
+})
+ipcMain.handle('presets:delete', (_event, payload) => {
+  const folderPath = path.join(APP_DATA_DIST, 'presets')
+
+  const filePath = path.join(folderPath, `${payload.name}.json`)
+  fs.unlink(filePath, (err) => {
+    console.log(err);
+    // здесь может быть обработка ошибки
   })
 })
 

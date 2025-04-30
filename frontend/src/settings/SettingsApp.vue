@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, watchEffect, computed, onBeforeUnmount, watch } from 'vue'
-import { useSettings } from '../composables/useSettings'
-import { Settings, defaultSettings } from '../composables/useSettings'
+import { Settings, defaultSettings, useSettings } from '../composables/useSettings'
+import { usePresets } from '../composables/usePresets'
 import { ElMessage } from 'element-plus'
+import SettingsPresets from './SettingsPresets.vue'
 import { useI18n } from '../composables/useI18n'
 const { t, locale, systemLocale } = useI18n()
 
 const { settings, loadSettings } = useSettings()
+const { presets, loadPresets, savePreset, deletePreset } = usePresets()
 
 const isLoaded = ref(false)
 const originalSettings = ref<Settings | null>(null)
@@ -85,6 +87,23 @@ function showSuccess(message = t('settings.updated')) {
   ElMessage({ message, grouping: true, type: 'success', duration: 1000 })
 }
 
+function createPreset(name: string) {
+  const pres = getPlainSettings()
+  savePreset({...pres, name: name})
+  showSuccess(t('settings.created'))
+  loadPresets()
+}
+
+async function removePreset(pres: Settings) {
+  await deletePreset(pres)
+  showSuccess(t('settings.deleted'))
+}
+
+async function setPreset (pres: string) {
+  window.ipcRenderer.invoke('settings:update', JSON.parse(pres))
+  await loadSettings()
+}
+
 function saveSettings() {
   window.ipcRenderer.invoke('settings:update', getPlainSettings())
   originalSettings.value = getPlainSettings()
@@ -118,6 +137,7 @@ onMounted(async () => {
   window.postMessage({ payload: 'removeLoading' })
 
   await loadSettings()
+  await loadPresets()
   originalSettings.value = getPlainSettings()
   isLoaded.value = true
 
@@ -137,10 +157,12 @@ onBeforeUnmount(() => {
       <div class="settings-grid">
         <h3>{{ t('settings.generalSettings.language') }}</h3>
         <div class="settings-item">
-          <el-select filterable v-model="selectedLocale" placeholder="Select language">
-            <el-option v-for="(label, code) in localeOptions" :key="code" :label="label" :value="code" /></el-select>
+          <el-select filterable v-model="selectedLocale" :placeholder="t('settings.generalSettings.languagePlaceholder')">
+            <el-option v-for="(label, code) in localeOptions" :key="code" :label="label" :value="code" />
+          </el-select>
         </div>
       </div>
+      <SettingsPresets :presets="presets" @create="createPreset" @set="setPreset" @delete="removePreset" />
     </div>
 
     <div class="settings-group">
