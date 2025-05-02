@@ -36,7 +36,7 @@ const create = () => {
     creating.value = true
     createdPreset.value = JSON.parse(selectedPreset.value).name
     setTimeout(() => {
-      createdPresetInput.value?.focus()
+      createdPresetInput.value?.select()
     }, 300)
   }
 }
