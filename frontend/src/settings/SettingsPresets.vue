@@ -28,7 +28,7 @@ const create = () => {
         const newPreset = (props.presets || []).find(el => el.name == createdPreset.value)
         if (newPreset) selectedPreset.value = JSON.stringify(newPreset)
         createdPreset.value = ''
-      }, 100)
+      }, 300)
     }
     else createdPresetError.value = true
   }
