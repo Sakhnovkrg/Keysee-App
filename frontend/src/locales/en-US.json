@@ -6,6 +6,7 @@
         "restoreDefaults": "Restore defaults",
         "restoreDefaultsConfirm": "Are you sure?",
         "save": "Save",
+        "noData": "List is empty",
         "generalSettings": {
             "groupTitle": "General settings",
             "language": "Language",

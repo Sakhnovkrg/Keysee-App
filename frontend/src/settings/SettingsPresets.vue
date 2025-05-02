@@ -7,11 +7,12 @@ const { t } = useI18n()
 
 const emit = defineEmits()
 const props = defineProps<{
-    presets?: Partial<Settings>[],
+  default: Settings,
+  presets: Settings[],
 }>()
 
 const createdPreset = ref('')
-const selectedPreset = ref(null)
+const selectedPreset = ref()
 const createdPresetError = ref(false)
 const createdPresetInput = ref(null)
 
@@ -23,7 +24,11 @@ const create = () => {
     if (createdPreset.value.length) {
       emit('create', createdPreset.value)
       creating.value = false
-      createdPreset.value = ''
+      setTimeout(() => {
+        const newPreset = (props.presets || []).find(el => el.name == createdPreset.value)
+        if (newPreset) selectedPreset.value = JSON.stringify(newPreset)
+        createdPreset.value = ''
+      }, 0)
     }
     else createdPresetError.value = true
   }
@@ -35,12 +40,16 @@ const create = () => {
   }
 }
 
-function select(pres: Partial<Settings>) {
+function select(pres: Settings) {
   emit('set', pres)
 }
 
-function deletePreset(preset: Partial<Settings>) {
+function deletePreset(preset: Settings) {
   emit('delete', JSON.parse(JSON.stringify(preset)))
+  if (JSON.stringify(preset) == selectedPreset.value) {
+    selectedPreset.value = JSON.stringify(props.default)
+    emit('set', JSON.stringify(props.default))
+  }
 }
 
 </script>
@@ -49,13 +58,13 @@ function deletePreset(preset: Partial<Settings>) {
   <div class="settings-grid">
     <h3>{{ t('settings.generalSettings.presetName') }}</h3>
     <div :class="['settings-item', 'presets', creating ? 'creating' : 'selecting']">
-      <el-select v-model="selectedPreset" class="presets__select" @change="select" :placeholder="t('settings.generalSettings.presetSelectPlaceholder')">
-        <el-option v-for="preset in props.presets" :key="JSON.stringify(preset)" :label="preset.name || '-'" :value="JSON.stringify(preset)">
+      <el-select v-model="selectedPreset" class="presets__select" @change="select" :placeholder="t('settings.generalSettings.presetSelectPlaceholder')" :no-data-text="t('settings.noData')">
+        <el-option v-for="preset in [props.default, ...props.presets]" :key="JSON.stringify(preset)" :label="preset.name || 'Default'" :value="JSON.stringify(preset)">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span>{{ preset.name || '-' }}</span>
+          <span>{{ preset.name || 'Default' }}</span>
           <el-popconfirm :confirmButtonText="t('ui.popconfirm.confirm')" :cancelButtonText="t('ui.popconfirm.cancel')"
             @confirm="deletePreset(preset)" :title="t('settings.generalSettings.presetDelete')">
-            <template #reference>
+            <template #reference v-if="preset.name">
               <el-icon :size="14" style="margin-right: -1em; margin-left: 1em" :title="t('settings.generalSettings.presetDelete')" @click.stop="">
                 <Delete />
               </el-icon>

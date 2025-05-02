@@ -162,7 +162,7 @@ onBeforeUnmount(() => {
           </el-select>
         </div>
       </div>
-      <SettingsPresets :presets="presets" @create="createPreset" @set="setPreset" @delete="removePreset" />
+      <SettingsPresets :presets="[...presets]" :default="defaultSettings" @create="createPreset" @set="setPreset" @delete="removePreset" />
     </div>
 
     <div class="settings-group">
@@ -370,14 +370,9 @@ onBeforeUnmount(() => {
     </div>
   </div>
   <div class="settings-footer">
-    <el-button :disabled="applyDisabled" type="primary" @click="saveSettings">{{ t('settings.save') }} (Ctrl +
-      S)</el-button>
-    <el-popconfirm :confirmButtonText="t('ui.popconfirm.confirm')" :cancelButtonText="t('ui.popconfirm.cancel')"
-      @confirm="restoreDefaults" :title="t('settings.restoreDefaultsConfirm')">
-      <template #reference>
-        <el-button :disabled="restoreDisabled">{{ t('settings.restoreDefaults') }}</el-button>
-      </template>
-    </el-popconfirm>
+    <el-button :disabled="applyDisabled" type="primary" @click="saveSettings">
+      {{ t('settings.save') }} (Ctrl + S)
+    </el-button>
   </div>
 </template>
 

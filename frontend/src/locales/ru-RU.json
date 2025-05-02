@@ -6,6 +6,7 @@
         "restoreDefaults": "Сбросить настройки",
         "restoreDefaultsConfirm": "Вы уверены?",
         "save": "Сохранить",
+        "noData": "Список пуст",
         "generalSettings": {
             "groupTitle": "Общее",
             "language": "Язык",
