@@ -28,7 +28,7 @@ const create = () => {
         const newPreset = (props.presets || []).find(el => el.name == createdPreset.value)
         if (newPreset) selectedPreset.value = JSON.stringify(newPreset)
         createdPreset.value = ''
-      }, 0)
+      }, 100)
     }
     else createdPresetError.value = true
   }
@@ -73,7 +73,7 @@ function deletePreset(preset: Settings) {
         </div>
         </el-option>
       </el-select>
-      <el-input v-model="createdPreset" ref="createdPresetInput" class="presets__create" :class="{ 'is-invalid': createdPresetError && !createdPreset.length }" :placeholder="t('settings.generalSettings.presetInputPlaceholder')" />
+      <el-input v-model="createdPreset" @keyup.enter="create" ref="createdPresetInput" class="presets__create" :class="{ 'is-invalid': createdPresetError && !createdPreset.length }" :placeholder="t('settings.generalSettings.presetInputPlaceholder')" tabindex="-1" />
     </div>
     <div class="settings-item">
       <el-icon :size="creating ? 13 : 20" style="cursor: pointer" :title="t(`settings.generalSettings.preset${creating ? 'Accept' : 'Create'}`)" @click="create">

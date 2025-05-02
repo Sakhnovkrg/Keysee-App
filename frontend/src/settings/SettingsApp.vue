@@ -111,19 +111,6 @@ function saveSettings() {
   showSuccess()
 }
 
-async function restoreDefaults() {
-  settings.value = {
-    ...defaultSettings,
-    language: systemLocale
-  }
-
-  selectedLocale.value = systemLocale
-  await window.ipcRenderer.invoke('settings:update', getPlainSettings())
-  originalSettings.value = getPlainSettings()
-  locale.value = systemLocale
-  showSuccess()
-}
-
 function handleSaveShortcut(e: KeyboardEvent) {
   if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
     e.preventDefault()
