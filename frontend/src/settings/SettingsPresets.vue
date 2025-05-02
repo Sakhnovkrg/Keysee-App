@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, Ref } from 'vue'
 import { Settings } from '../composables/useSettings'
 import { Delete } from '@element-plus/icons-vue'
 import { useI18n } from '../composables/useI18n'
@@ -12,7 +12,7 @@ const props = defineProps<{
 }>()
 
 const createdPreset = ref('')
-const selectedPreset = ref()
+const selectedPreset = ref() as Ref<string>
 const createdPresetError = ref(false)
 const createdPresetInput = ref(null)
 
@@ -34,6 +34,7 @@ const create = () => {
   }
   else {
     creating.value = true
+    createdPreset.value = JSON.parse(selectedPreset.value).name
     setTimeout(() => {
       createdPresetInput.value?.focus()
     }, 300)
@@ -73,10 +74,10 @@ function deletePreset(preset: Settings) {
         </div>
         </el-option>
       </el-select>
-      <el-input v-model="createdPreset" @keyup.enter="create" ref="createdPresetInput" class="presets__create" :class="{ 'is-invalid': createdPresetError && !createdPreset.length }" :placeholder="t('settings.generalSettings.presetInputPlaceholder')" tabindex="-1" />
+      <el-input v-model="createdPreset" @blur="creating = false" @keyup.enter="create" ref="createdPresetInput" class="presets__create" :class="{ 'is-invalid': createdPresetError && !createdPreset.length }" :placeholder="t('settings.generalSettings.presetInputPlaceholder')" tabindex="-1" />
     </div>
     <div class="settings-item">
-      <el-icon :size="creating ? 13 : 20" style="cursor: pointer" :title="t(`settings.generalSettings.preset${creating ? 'Accept' : 'Create'}`)" @click="create">
+      <el-icon :size="creating ? 13 : 20" style="cursor: pointer" :title="t(`settings.generalSettings.preset${creating ? 'Accept' : 'Create'}`)" @mousedown="create">
         <div v-if="creating">
           <svg :style="!createdPreset.length && {'pointer-events': none}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.54998 18.0001L3.84998 12.3001L5.27498 10.8751L9.54998 15.1501L18.725 5.9751L20.15 7.4001L9.54998 18.0001Z" fill="black"/>
