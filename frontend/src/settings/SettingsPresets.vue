@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Settings } from '../composables/useSettings'
-import { DocumentAdd, Select, Delete } from '@element-plus/icons-vue'
+import { Delete } from '@element-plus/icons-vue'
 import { useI18n } from '../composables/useI18n'
 const { t } = useI18n()
 
@@ -13,6 +13,7 @@ const props = defineProps<{
 const createdPreset = ref('')
 const selectedPreset = ref(null)
 const createdPresetError = ref(false)
+const createdPresetInput = ref(null)
 
 const creating = ref(false)
 
@@ -22,11 +23,15 @@ const create = () => {
     if (createdPreset.value.length) {
       emit('create', createdPreset.value)
       creating.value = false
+      createdPreset.value = ''
     }
     else createdPresetError.value = true
   }
   else {
     creating.value = true
+    setTimeout(() => {
+      createdPresetInput.value?.focus()
+    }, 300)
   }
 }
 
@@ -59,7 +64,7 @@ function deletePreset(preset: Partial<Settings>) {
         </div>
         </el-option>
       </el-select>
-      <el-input v-model="createdPreset" class="presets__create" :class="{ 'is-invalid': createdPresetError && !createdPreset.length }" :placeholder="t('settings.generalSettings.presetInputPlaceholder')" />
+      <el-input v-model="createdPreset" ref="createdPresetInput" class="presets__create" :class="{ 'is-invalid': createdPresetError && !createdPreset.length }" :placeholder="t('settings.generalSettings.presetInputPlaceholder')" />
     </div>
     <div class="settings-item">
       <el-icon :size="creating ? 13 : 20" style="cursor: pointer" :title="t(`settings.generalSettings.preset${creating ? 'Accept' : 'Create'}`)" @click="create">
