@@ -40,7 +40,6 @@
     "vue-tsc": "^2.0.6"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.3.1",
     "electron-store": "8.2.0",
     "element-plus": "^2.9.7",
     "semver": "^7.7.1",
