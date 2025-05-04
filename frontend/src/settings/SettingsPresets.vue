@@ -21,9 +21,9 @@ const creating = ref(false)
 
 const create = () => {
   creating.value = true
-  createdPreset.value = JSON.parse(selectedPreset.value).name
+  if (selectedPreset.value) createdPreset.value = JSON.parse(selectedPreset.value).name
   setTimeout(() => {
-    createdPresetInput.value.select()
+    createdPresetInput.value[createdPreset.value?.length ? 'select' : 'focus']()
   }, 350)
 }
 
