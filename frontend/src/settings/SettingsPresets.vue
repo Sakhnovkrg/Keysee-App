@@ -23,7 +23,7 @@ const create = () => {
   createdPreset.value = JSON.parse(selectedPreset.value).name
   setTimeout(() => {
     createdPresetInput.value?.select()
-  }, 300)
+  }, 330)
 }
 
 const confirm = () => {
@@ -78,9 +78,9 @@ function deletePreset(preset: Settings) {
         </div>
         </el-option>
       </el-select>
-      <el-input v-model="createdPreset" @keyup.enter="create" ref="createdPresetInput" class="presets__create" :class="{ 'is-invalid': createdPresetError && !createdPreset.length }" :placeholder="t('settings.generalSettings.presetInputPlaceholder')" tabindex="-1" />
+      <el-input v-model="createdPreset" @keyup.enter="confirm" ref="createdPresetInput" class="presets__create" :class="{ 'is-invalid': createdPresetError && !createdPreset.length }" :placeholder="t('settings.generalSettings.presetInputPlaceholder')" tabindex="-1" />
     </div>
-    <div class="settings-item" v-if="creating">
+    <div class="settings-item" v-show="creating">
       <el-icon @click="confirm" :size="13" style="cursor: pointer" :title="t('settings.generalSettings.presetAccept')">
         <svg :style="!createdPreset.length && {'pointer-events': none}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M9.54998 18.0001L3.84998 12.3001L5.27498 10.8751L9.54998 15.1501L18.725 5.9751L20.15 7.4001L9.54998 18.0001Z" fill="black"/>
@@ -90,7 +90,7 @@ function deletePreset(preset: Settings) {
         <svg :style="!createdPreset.length && {'pointer-events': none}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-d2e47025=""><path fill="currentColor" d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z"></path></svg>
       </el-icon>
     </div>
-    <div class="settings-item" v-else @click="create">
+    <div class="settings-item" v-show="!creating">
       <el-icon @click="create" :size="20" style="cursor: pointer" :title="t('settings.generalSettings.presetCreate')">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15.2 3C15.7275 3.00751 16.2307 3.22317 16.6 3.6L20.4 7.4C20.7768 7.76926 20.9925 8.27246 21 8.8V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H15.2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
