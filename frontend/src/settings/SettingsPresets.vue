@@ -9,13 +9,13 @@ const emit = defineEmits()
 const props = defineProps<{
   default: Settings,
   presets: Settings[],
-  current?: Settings
+  current?: string
 }>()
 
 const createdPreset = ref('')
 const selectedPreset = ref() as Ref<string>
 const createdPresetError = ref(false)
-const createdPresetInput = ref(null)
+const createdPresetInput = ref() as Ref<HTMLInputElement>
 
 const creating = ref(false)
 
@@ -23,8 +23,8 @@ const create = () => {
   creating.value = true
   createdPreset.value = JSON.parse(selectedPreset.value).name
   setTimeout(() => {
-    createdPresetInput.value?.select()
-  }, 330)
+    createdPresetInput.value.select()
+  }, 350)
 }
 
 const confirm = () => {

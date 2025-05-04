@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watchEffect, computed, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, watchEffect, computed, onBeforeUnmount, watch, Ref } from 'vue'
 import { Settings, defaultSettings, useSettings } from '../composables/useSettings'
 import { usePresets } from '../composables/usePresets'
 import { ElMessage } from 'element-plus'
@@ -11,7 +11,7 @@ const { settings, loadSettings, setSettings } = useSettings()
 const { presets, loadPresets, savePreset, deletePreset } = usePresets()
 
 const isLoaded = ref(false)
-const originalSettings = ref<Settings | null>(null)
+const originalSettings = ref() as Ref<Settings>
 
 const fontSize = ref(0)
 const keyBorderRadius = ref(0)
@@ -70,9 +70,14 @@ function compareByDefaults(current: Partial<Settings>, defaults: Settings): bool
   return keys.every(key => JSON.stringify(current[key]) === JSON.stringify(defaults[key]))
 }
 
+function compareExceptName(current: Partial<Settings>, defaults: Settings): boolean {
+  const keys = Object.keys(defaults).filter(el => el != 'name') as (keyof Settings)[]
+  return keys.every(key => JSON.stringify(current[key]) === JSON.stringify(defaults[key]))
+}
+
 const applyDisabled = computed(() => {
   if (!settings.value || !originalSettings.value) return true
-  return JSON.stringify(settings.value) === JSON.stringify(originalSettings.value)
+  return compareExceptName(settings.value, originalSettings.value)
 })
 
 const restoreDisabled = computed(() => {
@@ -91,9 +96,9 @@ function showSuccess(message = t('settings.updated')) {
 async function createPreset(name: string) {
   const pres = getPlainSettings()
   savePreset({...pres, name: name})
-  showSuccess(t('settings.created'))
   await loadPresets()
   selectedPresetName.value = name
+  saveSettings()
 }
 
 async function removePreset(pres: Settings) {
@@ -104,12 +109,15 @@ async function removePreset(pres: Settings) {
 async function setPreset (pres: string) {
   const parsed = JSON.parse(pres)
   selectedPresetName.value = parsed.name || ''
+  delete parsed.name
   setSettings(parsed)
 }
 
 function saveSettings() {
-  window.ipcRenderer.invoke('settings:update', getPlainSettings())
-  originalSettings.value = getPlainSettings()
+  const values = getPlainSettings()
+  values.name = selectedPresetName.value
+  window.ipcRenderer.invoke('settings:update', values)
+  originalSettings.value = values
   locale.value = selectedLocale.value
   showSuccess()
 }
@@ -117,7 +125,7 @@ function saveSettings() {
 function handleSaveShortcut(e: KeyboardEvent) {
   if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
     e.preventDefault()
-    if (!applyDisabled.value) {
+    if (!compareExceptName(settings.value, originalSettings.value)) {
       saveSettings()
     }
   }
