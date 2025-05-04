@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted, watchEffect, computed, onBeforeUnmount, watch } from 'vue'
-import { useSettings } from '../composables/useSettings'
-import { Settings, defaultSettings } from '../composables/useSettings'
+import { ref, onMounted, watchEffect, computed, onBeforeUnmount, watch, Ref } from 'vue'
+import { Settings, defaultSettings, useSettings } from '../composables/useSettings'
+import { usePresets } from '../composables/usePresets'
 import { ElMessage } from 'element-plus'
+import SettingsPresets from './SettingsPresets.vue'
 import { useI18n } from '../composables/useI18n'
 const { t, locale, systemLocale } = useI18n()
 
-const { settings, loadSettings } = useSettings()
+const { settings, loadSettings, setSettings } = useSettings()
+const { presets, loadPresets, savePreset, deletePreset } = usePresets()
 
 const isLoaded = ref(false)
-const originalSettings = ref<Settings | null>(null)
+const originalSettings = ref() as Ref<Settings>
 
 const fontSize = ref(0)
 const keyBorderRadius = ref(0)
@@ -22,6 +24,7 @@ const rippleSize = ref(0)
 const rippleDuration = ref(0)
 const rippleDisabled = computed(() => !settings.value?.rippleEnabled)
 const selectedLocale = ref(locale.value)
+const selectedPresetName = ref('')
 
 const localeOptions: Record<string, string> = {
   'en-US': 'English',
@@ -67,9 +70,14 @@ function compareByDefaults(current: Partial<Settings>, defaults: Settings): bool
   return keys.every(key => JSON.stringify(current[key]) === JSON.stringify(defaults[key]))
 }
 
+function compareExceptName(current: Partial<Settings>, defaults: Settings): boolean {
+  const keys = Object.keys(defaults).filter(el => el != 'name') as (keyof Settings)[]
+  return keys.every(key => JSON.stringify(current[key]) === JSON.stringify(defaults[key]))
+}
+
 const applyDisabled = computed(() => {
   if (!settings.value || !originalSettings.value) return true
-  return JSON.stringify(settings.value) === JSON.stringify(originalSettings.value)
+  return compareExceptName(settings.value, originalSettings.value)
 })
 
 const restoreDisabled = computed(() => {
@@ -85,30 +93,39 @@ function showSuccess(message = t('settings.updated')) {
   ElMessage({ message, grouping: true, type: 'success', duration: 1000 })
 }
 
-function saveSettings() {
-  window.ipcRenderer.invoke('settings:update', getPlainSettings())
-  originalSettings.value = getPlainSettings()
-  locale.value = selectedLocale.value
-  showSuccess()
+async function createPreset(name: string) {
+  const pres = getPlainSettings()
+  savePreset({...pres, name: name})
+  await loadPresets()
+  selectedPresetName.value = name
+  saveSettings()
 }
 
-async function restoreDefaults() {
-  settings.value = {
-    ...defaultSettings,
-    language: systemLocale
-  }
+async function removePreset(pres: Settings) {
+  await deletePreset(pres)
+  showSuccess(t('settings.deleted'))
+}
 
-  selectedLocale.value = systemLocale
-  await window.ipcRenderer.invoke('settings:update', getPlainSettings())
-  originalSettings.value = getPlainSettings()
-  locale.value = systemLocale
+async function setPreset (pres: string) {
+  const parsed = JSON.parse(pres)
+  selectedPresetName.value = parsed.name || ''
+  delete parsed.name
+  setSettings(parsed)
+}
+
+function saveSettings() {
+  const values = getPlainSettings()
+  values.name = selectedPresetName.value
+  window.ipcRenderer.invoke('settings:update', values)
+  originalSettings.value = values
+  locale.value = selectedLocale.value
   showSuccess()
 }
 
 function handleSaveShortcut(e: KeyboardEvent) {
   if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
     e.preventDefault()
-    if (!applyDisabled.value) {
+    if (!compareExceptName(settings.value, originalSettings.value)) {
       saveSettings()
     }
   }
@@ -118,6 +135,8 @@ onMounted(async () => {
   window.postMessage({ payload: 'removeLoading' })
 
   await loadSettings()
+  await loadPresets()
+  selectedPresetName.value = settings.value.name || ''
   originalSettings.value = getPlainSettings()
   isLoaded.value = true
 
@@ -137,10 +156,12 @@ onBeforeUnmount(() => {
       <div class="settings-grid">
         <h3>{{ t('settings.generalSettings.language') }}</h3>
         <div class="settings-item">
-          <el-select filterable v-model="selectedLocale" placeholder="Select language">
-            <el-option v-for="(label, code) in localeOptions" :key="code" :label="label" :value="code" /></el-select>
+          <el-select filterable v-model="selectedLocale" :placeholder="t('settings.generalSettings.languagePlaceholder')">
+            <el-option v-for="(label, code) in localeOptions" :key="code" :label="label" :value="code" />
+          </el-select>
         </div>
       </div>
+      <SettingsPresets :presets="[...presets]" :default="defaultSettings" :current="selectedPresetName" @create="createPreset" @set="setPreset" @delete="removePreset" />
     </div>
 
     <div class="settings-group">
@@ -348,14 +369,9 @@ onBeforeUnmount(() => {
     </div>
   </div>
   <div class="settings-footer">
-    <el-button :disabled="applyDisabled" type="primary" @click="saveSettings">{{ t('settings.save') }} (Ctrl +
-      S)</el-button>
-    <el-popconfirm :confirmButtonText="t('ui.popconfirm.confirm')" :cancelButtonText="t('ui.popconfirm.cancel')"
-      @confirm="restoreDefaults" :title="t('settings.restoreDefaultsConfirm')">
-      <template #reference>
-        <el-button :disabled="restoreDisabled">{{ t('settings.restoreDefaults') }}</el-button>
-      </template>
-    </el-popconfirm>
+    <el-button :disabled="applyDisabled" type="primary" @click="saveSettings">
+      {{ t('settings.save') }} (Ctrl + S)
+    </el-button>
   </div>
 </template>
 
