@@ -24,6 +24,7 @@ const rippleSize = ref(0)
 const rippleDuration = ref(0)
 const rippleDisabled = computed(() => !settings.value?.rippleEnabled)
 const selectedLocale = ref(locale.value)
+const selectedPresetName = ref('')
 
 const localeOptions: Record<string, string> = {
   'en-US': 'English',
@@ -87,11 +88,12 @@ function showSuccess(message = t('settings.updated')) {
   ElMessage({ message, grouping: true, type: 'success', duration: 1000 })
 }
 
-function createPreset(name: string) {
+async function createPreset(name: string) {
   const pres = getPlainSettings()
   savePreset({...pres, name: name})
   showSuccess(t('settings.created'))
-  loadPresets()
+  await loadPresets()
+  selectedPresetName.value = name
 }
 
 async function removePreset(pres: Settings) {
@@ -100,9 +102,9 @@ async function removePreset(pres: Settings) {
 }
 
 async function setPreset (pres: string) {
-  setSettings(JSON.parse(pres))
-  // window.ipcRenderer.invoke('settings:update', JSON.parse(pres))
-  // await loadSettings()
+  const parsed = JSON.parse(pres)
+  selectedPresetName.value = parsed.name || ''
+  setSettings(parsed)
 }
 
 function saveSettings() {
@@ -126,6 +128,7 @@ onMounted(async () => {
 
   await loadSettings()
   await loadPresets()
+  selectedPresetName.value = settings.value.name || ''
   originalSettings.value = getPlainSettings()
   isLoaded.value = true
 
@@ -150,7 +153,7 @@ onBeforeUnmount(() => {
           </el-select>
         </div>
       </div>
-      <SettingsPresets :presets="[...presets]" :default="defaultSettings" @create="createPreset" @set="setPreset" @delete="removePreset" />
+      <SettingsPresets :presets="[...presets]" :default="defaultSettings" :current="selectedPresetName" @create="createPreset" @set="setPreset" @delete="removePreset" />
     </div>
 
     <div class="settings-group">

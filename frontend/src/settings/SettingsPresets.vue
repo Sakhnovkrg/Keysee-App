@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { ref, Ref } from 'vue'
+import { ref, Ref, watch } from 'vue'
 import { Settings } from '../composables/useSettings'
-import { Delete } from '@element-plus/icons-vue'
 import { useI18n } from '../composables/useI18n'
+
 const { t } = useI18n()
 
 const emit = defineEmits()
 const props = defineProps<{
   default: Settings,
   presets: Settings[],
+  current?: Settings
 }>()
 
 const createdPreset = ref('')
@@ -31,11 +32,6 @@ const confirm = () => {
   if (createdPreset.value.length) {
     emit('create', createdPreset.value)
     creating.value = false
-    setTimeout(() => {
-      const newPreset = (props.presets || []).find(el => el.name == createdPreset.value)
-      if (newPreset) selectedPreset.value = JSON.stringify(newPreset)
-      createdPreset.value = ''
-    }, 250)
   }
   else createdPresetError.value = true
 }
@@ -56,6 +52,11 @@ function deletePreset(preset: Settings) {
     emit('set', JSON.stringify(props.default))
   }
 }
+
+watch(props, () => {
+  const findedPreset = props.presets.find(el => el.name == props.current)
+  if (findedPreset) selectedPreset.value = JSON.stringify(findedPreset)
+})
 
 </script>
 
