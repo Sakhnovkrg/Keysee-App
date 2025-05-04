@@ -7,7 +7,7 @@ import SettingsPresets from './SettingsPresets.vue'
 import { useI18n } from '../composables/useI18n'
 const { t, locale, systemLocale } = useI18n()
 
-const { settings, loadSettings } = useSettings()
+const { settings, loadSettings, setSettings } = useSettings()
 const { presets, loadPresets, savePreset, deletePreset } = usePresets()
 
 const isLoaded = ref(false)
@@ -100,8 +100,9 @@ async function removePreset(pres: Settings) {
 }
 
 async function setPreset (pres: string) {
-  window.ipcRenderer.invoke('settings:update', JSON.parse(pres))
-  await loadSettings()
+  setSettings(JSON.parse(pres))
+  // window.ipcRenderer.invoke('settings:update', JSON.parse(pres))
+  // await loadSettings()
 }
 
 function saveSettings() {
