@@ -40,6 +40,7 @@ export type Settings = {
   rippleColorRight: string
 
   snoozeUpdateCheckUntil?: string
+  name?: string
 }
 
 export const defaultSettings: Settings = {
@@ -87,8 +88,11 @@ export async function loadSettings() {
   settings.value = { ...defaultSettings, ...loaded }
 }
 
-export async function saveSettings(patch: Partial<Settings>) {
+export function setSettings(patch: Partial<Settings>) {
   settings.value = { ...settings.value, ...patch }
+}
+export async function saveSettings(patch: Partial<Settings>) {
+  setSettings(patch)
   await window.ipcRenderer.invoke('settings:set', patch)
 }
 
@@ -96,6 +100,7 @@ export function useSettings() {
   return {
     settings,
     loadSettings,
+    setSettings,
     saveSettings,
   }
 }

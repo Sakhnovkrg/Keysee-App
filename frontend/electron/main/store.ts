@@ -41,7 +41,7 @@ export type Settings = {
   snoozeUpdateCheckUntil?: string
 }
 
-const store = new Store<Settings>({
+const settings = new Store<Settings>({
   defaults: {
     // General
     language: '',
@@ -81,4 +81,4 @@ const store = new Store<Settings>({
   }
 })
 
-export default store
+export default settings

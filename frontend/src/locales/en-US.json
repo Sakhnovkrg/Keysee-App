@@ -1,12 +1,23 @@
 {
     "settings": {
         "updated": "Settings applied",
+        "created": "Preset created",
+        "deleted": "Preset deleted",
         "restoreDefaults": "Restore defaults",
         "restoreDefaultsConfirm": "Are you sure?",
         "save": "Save",
+        "noData": "List is empty",
         "generalSettings": {
             "groupTitle": "General settings",
-            "language": "Language"
+            "language": "Language",
+            "languagePlaceholder": "Select language",
+            "presetName": "Presets",
+            "presetSelectPlaceholder": "Select preset",
+            "presetInputPlaceholder": "Preset name",
+            "presetAccept": "Save preset",
+            "presetDelete": "Delete preset",
+            "presetCancel": "Cancel",
+            "presetCreate": "Create preset with current settings"
         },
         "overlay": {
             "groupTitle": "Overlay appearance",
