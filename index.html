@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Keysee – Input Visualizer</title>
+    <meta name="description"
+        content="Keysee is a minimalistic input visualizer. Designed for creators, streamers, and educators. Supports full appearance customization." />
+
+    <link rel="icon" href="img/keysee-logo.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="img/favicon.png" type="image/png" />
+
+    <meta property="og:title" content="Keysee – Input Visualizer" />
+    <meta property="og:description" content="Minimalist input visualizer for creators, streamers, and educators." />
+    <meta property="og:image" content="https://sakhnovkrg.github.io/Keysee-App/img/og.png" />
+    <meta property="og:url" content="https://sakhnovkrg.github.io/Keysee-App/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="image" content="https://sakhnovkrg.github.io/Keysee-App/img/og.png" />
+
+    <style>
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        :root {
+            color-scheme: light dark;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            margin: 1rem auto;
+            max-width: 600px;
+            padding: 0 1rem;
+            line-height: 1.6;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        body.light {
+            background: #fff;
+            color: #111;
+        }
+
+        body.dark {
+            background: #111;
+            color: #eee;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        a {
+            color: #409eff;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            border: 1px solid #409eff;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: transparent;
+            color: #409eff;
+            cursor: pointer;
+            padding: 0 1rem;
+            height: 2rem;
+        }
+
+        a.btn--big {
+            font-size: 1.4rem;
+            font-weight: bold;
+            height: 2.4rem;
+            color: #ff8c63;
+            border-color: #ff8c63;
+        }
+
+        a.btn--big:hover {
+            background: #ff8c63;
+            color: #fff;
+        }
+
+        a:hover,
+        .btn:hover {
+            color: #ff8c63;
+            border-color: #ff8c63;
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            user-select: none;
+        }
+
+        .theme-toggle .icon {
+            font-size: 1rem;
+        }
+
+        .toggle-wrapper {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-wrapper input {
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            margin: 0;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .toggle-wrapper .track {
+            background: currentColor;
+            opacity: 0.4;
+            width: 100%;
+            height: 100%;
+            border-radius: 999px;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .toggle-wrapper .thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: currentColor;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .toggle-wrapper input:checked~.thumb {
+            transform: translateX(26px);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .logo-container {
+            margin: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Keysee</h1>
+
+        <div class="controls">
+            <label class="theme-toggle">
+                <span class="icon">🌞</span>
+                <span class="toggle-wrapper">
+                    <input type="checkbox" id="theme-toggle" />
+                    <span class="track"></span>
+                    <span class="thumb"></span>
+                </span>
+                <span class="icon">🌙</span>
+            </label>
+        </div>
+    </div>
+
+
+    <div class="logo-container">
+        <img src="./img/keysee-logo.svg" alt="logo">
+        <a id="star-button" href="https://github.com/sakhnovkrg/Keysee-App" target="_blank" class="btn">
+            ⭐ Star on GitHub <span id="star-count" style="opacity:0.7;"></span>
+        </a>
+    </div>
+    <p>
+        Keysee is a minimalist input visualizer <strong>currently available for Windows only</strong>.
+        Built for creators, streamers, and tutorial makers who want to clearly show keyboard and mouse input.
+    </p>
+
+    <p>
+        <img src="./img/demo.gif" alt="Keysee demo" style="max-width: 100%; height: auto;" />
+    </p>
+
+    <p>
+        Keysee is fully open source, built with Go and Electron. You can explore the source code, contribute, or suggest
+        features on
+        <a href="https://github.com/sakhnovkrg/Keysee-App" target="_blank">GitHub</a>.
+    </p>
+
+    <p>
+        <a class="btn btn--big" href="https://github.com/sakhnovkrg/Keysee-App/releases" target="_blank">Download</a>
+    </p>
+
+    <p><b>Share Keysee:</b></p>
+    <div class="share-buttons">
+        <a class="btn" href="https://twitter.com/intent/tweet?url=https://sakhnovkrg.github.io/Keysee-App" target="_blank"
+            rel="noopener">X</a>
+
+        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=https://sakhnovkrg.github.io/Keysee-App"
+            target="_blank" rel="noopener">Facebook</a>
+
+        <a class="btn" href="https://www.reddit.com/submit?url=https://sakhnovkrg.github.io/Keysee-App" target="_blank"
+            rel="noopener">Reddit</a>
+
+        <a class="btn" href="https://vk.com/share.php?url=https://sakhnovkrg.github.io/Keysee-App" target="_blank"
+            rel="noopener">VK</a>
+
+        <a class="btn" href="https://t.me/share/url?url=https://sakhnovkrg.github.io/Keysee-App" target="_blank"
+            rel="noopener">Telegram</a>
+
+        <button class="btn" id="native-share">
+            📲 Share via device
+        </button>
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById("theme-toggle");
+        const downloadLink = document.querySelector("a[href*='releases']");
+
+        function detectTheme() {
+            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+
+        function applyTheme(theme) {
+            document.body.classList.remove("light", "dark");
+            if (theme === "light" || theme === "dark") {
+                document.body.classList.add(theme);
+            } else {
+                document.body.classList.add(detectTheme());
+            }
+            themeToggle.checked = document.body.classList.contains("dark");
+        }
+
+        themeToggle.addEventListener("change", () => {
+            const theme = themeToggle.checked ? "dark" : "light";
+            applyTheme(theme);
+        });
+
+        applyTheme("system");
+
+        const releasesUrl = encodeURIComponent("https://api.github.com/repos/sakhnovkrg/Keysee-App/releases/latest");
+        const repoUrl = encodeURIComponent("https://api.github.com/repos/sakhnovkrg/Keysee-App");
+
+        fetch(`https://api.allorigins.win/raw?url=${releasesUrl}`)
+            .then(res => res.json())
+            .then(data => {
+                const version = data.tag_name;
+                if (version && downloadLink) {
+                    downloadLink.href = `https://github.com/sakhnovkrg/Keysee-App/releases/tag/${version}`;
+                    downloadLink.textContent = `Download ${version}`;
+                }
+            })
+            .catch(err => {
+                console.warn("Failed to load latest release", err);
+            });
+
+        fetch(`https://api.allorigins.win/raw?url=${repoUrl}`)
+            .then(res => res.json())
+            .then(data => {
+                const count = data.stargazers_count;
+                const starCountSpan = document.getElementById("star-count");
+                if (starCountSpan && count) {
+                    starCountSpan.textContent = `(${count})`;
+                }
+            })
+            .catch(err => {
+                console.warn("Failed to load star count", err);
+            });
+
+        const nativeShareBtn = document.getElementById("native-share");
+
+        if (navigator.share) {
+            nativeShareBtn.addEventListener("click", () => {
+                navigator.share({
+                    title: "Keysee – Input Visualizer",
+                    text: "Check out Keysee: a minimalist input visualizer!",
+                    url: "https://sakhnovkrg.github.io/Keysee-App"
+                }).catch((err) => {
+                    console.warn("Share canceled or failed", err);
+                });
+            });
+        } else {
+            nativeShareBtn.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
