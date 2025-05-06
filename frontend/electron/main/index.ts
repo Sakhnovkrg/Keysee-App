@@ -115,6 +115,10 @@ ipcMain.handle('presets:delete', (_event, payload) => {
     // здесь может быть обработка ошибки
   })
 })
+ipcMain.handle('presets:open', () => {
+  const folderPath = path.join(APP_DATA_DIST, 'presets')
+  shell.openPath(folderPath)
+})
 
 // Window
 async function createWindow() {

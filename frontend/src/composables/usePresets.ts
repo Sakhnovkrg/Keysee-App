@@ -19,11 +19,16 @@ export async function deletePreset(preset: Settings) {
   await loadPresets()
 }
 
+export async function openFolder() {
+  await window.ipcRenderer.invoke('presets:open')
+}
+
 export function usePresets() {
   return {
     presets,
     loadPresets,
     savePreset,
-    deletePreset
+    deletePreset,
+    openFolder
   }
 }

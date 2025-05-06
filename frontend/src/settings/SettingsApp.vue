@@ -8,7 +8,7 @@ import { useI18n } from '../composables/useI18n'
 const { t, locale, systemLocale } = useI18n()
 
 const { settings, loadSettings, setSettings } = useSettings()
-const { presets, loadPresets, savePreset, deletePreset } = usePresets()
+const { presets, loadPresets, savePreset, deletePreset, openFolder } = usePresets()
 
 const isLoaded = ref(false)
 const originalSettings = ref() as Ref<Settings>
@@ -161,7 +161,7 @@ onBeforeUnmount(() => {
           </el-select>
         </div>
       </div>
-      <SettingsPresets :presets="[...presets]" :default="defaultSettings" :current="selectedPresetName" @create="createPreset" @set="setPreset" @delete="removePreset" />
+      <SettingsPresets :presets="[...presets]" :default="defaultSettings" :current="selectedPresetName" @create="createPreset" @set="setPreset" @delete="removePreset" @open="openFolder" />
     </div>
 
     <div class="settings-group">
