@@ -9,7 +9,8 @@ const emit = defineEmits()
 const props = defineProps<{
   default: Settings,
   presets: Settings[],
-  current?: string
+  current?: string,
+  editing?: boolean
 }>()
 
 const createdPreset = ref('')
@@ -74,9 +75,12 @@ watch(props, () => {
     </h3>
     <div :class="['settings-item', 'presets', creating ? 'creating' : 'selecting']">
       <el-select v-model="selectedPreset" class="presets__select" @change="select" :placeholder="t('settings.generalSettings.presetSelectPlaceholder')" :no-data-text="t('settings.noData')">
+        <template #label="{ label, value }">
+        <div style="display: flex"><div style="overflow: hidden; text-overflow: ellipsis; max-width: 92%; margin-right: 4px">{{ label }}</div><span :class="['editing', (editing) && 'visible']">*</span></div>
+      </template>
         <el-option v-for="preset in [props.default, ...props.presets]" :key="JSON.stringify(preset)" :label="preset.name || 'Default'" :value="JSON.stringify(preset)">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span>{{ preset.name || 'Default' }}</span>
+          <span>{{ preset.name || 'Default' }}<span :class="['editing', (editing && preset.name == current) && 'visible']"> *</span></span>
           <el-popconfirm :confirmButtonText="t('ui.popconfirm.confirm')" :cancelButtonText="t('ui.popconfirm.cancel')"
             @confirm="deletePreset(preset)" :title="t('settings.generalSettings.presetDelete')">
             <template #reference v-if="preset.name">
@@ -129,6 +133,14 @@ body {
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
+}
+
+.editing {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.editing.visible {
+  opacity: 1;
 }
 
 .presets {

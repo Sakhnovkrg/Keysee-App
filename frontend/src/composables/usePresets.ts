@@ -10,7 +10,7 @@ export async function loadPresets() {
 export async function savePreset(preset: Settings) {
   await window.ipcRenderer.invoke('presets:create', preset)
 
-  presets.value = [...presets.value, preset]
+  loadPresets()
 }
 
 export async function deletePreset(preset: Settings) {

@@ -75,9 +75,16 @@ function compareExceptName(current: Partial<Settings>, defaults: Settings): bool
   return keys.every(key => JSON.stringify(current[key]) === JSON.stringify(defaults[key]))
 }
 
-const applyDisabled = computed(() => {
+const notChanged = computed(() => {
   if (!settings.value || !originalSettings.value) return true
   return compareExceptName(settings.value, originalSettings.value)
+})
+
+const presetEditing = computed(() => {
+  const preset = presets.value.find(el => el.name == selectedPresetName.value)
+  if (!preset) return false
+  const keys = Object.keys(preset).filter(el => el != 'name') as (keyof Settings)[]
+  return !keys.every(key => JSON.stringify(preset[key]) === JSON.stringify(settings.value[key]))
 })
 
 const restoreDisabled = computed(() => {
@@ -117,6 +124,7 @@ function saveSettings() {
   const values = getPlainSettings()
   values.name = selectedPresetName.value
   window.ipcRenderer.invoke('settings:update', values)
+  savePreset(values)
   originalSettings.value = values
   locale.value = selectedLocale.value
   showSuccess()
@@ -161,7 +169,16 @@ onBeforeUnmount(() => {
           </el-select>
         </div>
       </div>
-      <SettingsPresets :presets="[...presets]" :default="defaultSettings" :current="selectedPresetName" @create="createPreset" @set="setPreset" @delete="removePreset" @open="openFolder" />
+      <SettingsPresets 
+        :presets="[...presets]" 
+        :default="defaultSettings"
+        :current="selectedPresetName"
+        :editing="presetEditing"
+        @create="createPreset" 
+        @set="setPreset" 
+        @delete="removePreset" 
+        @open="openFolder" 
+      />
     </div>
 
     <div class="settings-group">
@@ -369,7 +386,7 @@ onBeforeUnmount(() => {
     </div>
   </div>
   <div class="settings-footer">
-    <el-button :disabled="applyDisabled" type="primary" @click="saveSettings">
+    <el-button :disabled="notChanged" type="primary" @click="saveSettings">
       {{ t('settings.save') }} (Ctrl + S)
     </el-button>
   </div>
