@@ -124,7 +124,7 @@ function saveSettings() {
   const values = getPlainSettings()
   values.name = selectedPresetName.value
   window.ipcRenderer.invoke('settings:update', values)
-  savePreset(values)
+  if (values.name) savePreset(values)
   originalSettings.value = values
   locale.value = selectedLocale.value
   showSuccess()
