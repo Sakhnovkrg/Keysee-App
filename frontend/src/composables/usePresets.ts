@@ -10,8 +10,7 @@ export async function loadPresets() {
 export async function savePreset(preset: Settings) {
   await window.ipcRenderer.invoke('presets:create', preset)
 
-  loadPresets()
-}
+loadPresets()
 
 export async function deletePreset(preset: Settings) {
   //ElMessage({ message: 'sdf', grouping: true, type: 'success', duration: 1000 })
