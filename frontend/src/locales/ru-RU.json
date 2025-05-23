@@ -16,6 +16,7 @@
             "presetInputPlaceholder": "Назовите пресет",
             "presetAccept": "Сохранить пресет",
             "presetDelete": "Удалить пресет",
+            "presetOpen": "Открыть папку пресетов",
             "presetCancel": "Отмена",
             "presetCreate": "Создать пресет с текущими настройками"
         },

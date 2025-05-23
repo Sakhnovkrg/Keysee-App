@@ -9,7 +9,8 @@ const emit = defineEmits()
 const props = defineProps<{
   default: Settings,
   presets: Settings[],
-  current?: string
+  current?: string,
+  editing?: boolean
 }>()
 
 const createdPreset = ref('')
@@ -53,6 +54,10 @@ function deletePreset(preset: Settings) {
   }
 }
 
+function openFolder() {
+  emit('open')
+}
+
 watch(props, () => {
   const findedPreset = props.presets.find(el => el.name == props.current)
   if (findedPreset) selectedPreset.value = JSON.stringify(findedPreset)
@@ -62,12 +67,20 @@ watch(props, () => {
 
 <template>
   <div class="settings-grid">
-    <h3>{{ t('settings.generalSettings.presetName') }}</h3>
+    <h3>
+      {{ t('settings.generalSettings.presetName') }} &nbsp;
+      <el-icon @click="openFolder" :size="15" style="cursor: pointer" :title="t('settings.generalSettings.presetOpen')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-d2e47025=""><path fill="currentColor" d="M128 384v448h768V384zm-32-64h832a32 32 0 0 1 32 32v512a32 32 0 0 1-32 32H96a32 32 0 0 1-32-32V352a32 32 0 0 1 32-32m64-128h704v64H160zm96-128h512v64H256z"></path></svg>
+      </el-icon>
+    </h3>
     <div :class="['settings-item', 'presets', creating ? 'creating' : 'selecting']">
       <el-select v-model="selectedPreset" class="presets__select" @change="select" :placeholder="t('settings.generalSettings.presetSelectPlaceholder')" :no-data-text="t('settings.noData')">
+        <template #label="{ label, value }">
+        <div style="display: flex"><div style="overflow: hidden; text-overflow: ellipsis; max-width: 92%; margin-right: 4px">{{ label }}</div><span :class="['editing', (editing) && 'visible']">*</span></div>
+      </template>
         <el-option v-for="preset in [props.default, ...props.presets]" :key="JSON.stringify(preset)" :label="preset.name || 'Default'" :value="JSON.stringify(preset)">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span>{{ preset.name || 'Default' }}</span>
+          <span>{{ preset.name || 'Default' }}<span :class="['editing', (editing && preset.name == current) && 'visible']"> *</span></span>
           <el-popconfirm :confirmButtonText="t('ui.popconfirm.confirm')" :cancelButtonText="t('ui.popconfirm.cancel')"
             @confirm="deletePreset(preset)" :title="t('settings.generalSettings.presetDelete')">
             <template #reference v-if="preset.name">
@@ -120,6 +133,14 @@ body {
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
+}
+
+.editing {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.editing.visible {
+  opacity: 1;
 }
 
 .presets {

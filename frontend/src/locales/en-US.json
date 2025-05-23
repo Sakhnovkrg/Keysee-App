@@ -16,6 +16,7 @@
             "presetInputPlaceholder": "Preset name",
             "presetAccept": "Save preset",
             "presetDelete": "Delete preset",
+            "presetOpen": "Open presets folder",
             "presetCancel": "Cancel",
             "presetCreate": "Create preset with current settings"
         },
