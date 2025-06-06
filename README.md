@@ -27,7 +27,7 @@ If you're unsure, you can [you can build it yourself](BUILD.md). Totally up to y
 
 ## Download
 
-[Dwonload for Windows 10+](https://github.com/Sakhnovkrg/Keysee-App/releases/latest)
+[Download for Windows 10+](https://github.com/Sakhnovkrg/Keysee-App/releases/latest)
 
 ## License
 
