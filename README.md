@@ -2,7 +2,7 @@
 
 ![Keysee Logo](keysee-logo.svg)
 
-Keystrokes and mouse clicks are often invisible during tutorials and live demos. Keysee makes them visible in real-time.
+Keystrokes and mouse clicks are often invisible during tutorials and live demos. Keysee shows them as they happen.
 
 ![Showcase](demo.gif)
 
