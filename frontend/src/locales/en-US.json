@@ -37,7 +37,8 @@
             "mouse": "Mouse",
             "fontSize": "Font size",
             "font": "Font",
-            "eventDisplayTime": "Display time"
+            "eventDisplayTime": "Display time",
+            "maxSingleKeys": "Single key display limit"
         },
         "ripples": {
             "groupTitle": "Click ripples",

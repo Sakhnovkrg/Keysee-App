@@ -29,6 +29,7 @@ export type Settings = {
   keyBackgroundTransparency: string
   fontFamily: string
   eventDisplayDuration: number
+  maxSingleKeys: number
 
   // Mouse click ripples
   rippleEnabled: boolean
@@ -69,6 +70,7 @@ const settings = new Store<Settings>({
     keyBackgroundTransparency: '30%',
     fontFamily: 'Segoe UI',
     eventDisplayDuration: 1200,
+    maxSingleKeys: 1,
 
     // Mouse click ripples
     rippleEnabled: true,

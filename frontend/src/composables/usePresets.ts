@@ -4,12 +4,13 @@ import { type Settings } from './useSettings'
 const presets = ref<Partial<Settings>[]>([])
 
 export async function loadPresets() {
-  presets.value = await window.ipcRenderer.invoke('presets:get')
+  const loadedPresets = await window.ipcRenderer.invoke('presets:get')
+  presets.value = loadedPresets.map((preset: { [x: string]: any; language: any }) => {
+    const { language, ...presetWithoutLanguage } = preset
+    return presetWithoutLanguage
+  })
 }
 
-// export async function savePreset(preset: Settings) {
-//   await window.ipcRenderer.invoke('presets:create', preset)
-// }
 export async function savePreset(preset: Settings) {
   const { language, ...presetWithoutLanguage } = preset
   await window.ipcRenderer.invoke('presets:create', presetWithoutLanguage)

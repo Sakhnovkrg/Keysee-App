@@ -37,7 +37,8 @@
             "mouse": "События с мышью",
             "fontSize": "Размер шрифта",
             "font": "Шрифт",
-            "eventDisplayTime": "Время отображения"
+            "eventDisplayTime": "Время отображения",
+            "maxSingleKeys": "Лимит одиночных клавиш"
         },
         "ripples": {
             "groupTitle": "Клики мыши (эффект волны)",

@@ -5,7 +5,7 @@ import { usePresets } from '../composables/usePresets'
 import { ElMessage } from 'element-plus'
 import SettingsPresets from './SettingsPresets.vue'
 import { useI18n } from '../composables/useI18n'
-const { t, locale, systemLocale } = useI18n()
+const { t, locale } = useI18n()
 
 const { settings, loadSettings, setSettings } = useSettings()
 const { presets, loadPresets, savePreset, deletePreset, openFolder } = usePresets()
@@ -22,6 +22,7 @@ const overlayBottomOffset = ref(0)
 const overlaySideOffset = ref(0)
 const rippleSize = ref(0)
 const rippleDuration = ref(0)
+const maxSingleKeys = ref(1)
 const rippleDisabled = computed(() => !settings.value?.rippleEnabled)
 const selectedLocale = ref(locale.value)
 const selectedPresetName = ref('')
@@ -49,6 +50,7 @@ watchEffect(() => {
   overlaySideOffset.value = parseInt(settings.value.overlaySideOffset)
   rippleSize.value = parseInt(settings.value.rippleSize)
   rippleDuration.value = parseInt(settings.value.rippleDuration)
+  maxSingleKeys.value = settings.value.maxSingleKeys || 1
 })
 
 watchEffect(() => {
@@ -63,6 +65,7 @@ watchEffect(() => {
   settings.value.overlaySideOffset = `${overlaySideOffset.value}px`
   settings.value.rippleSize = `${rippleSize.value}px`
   settings.value.rippleDuration = `${rippleDuration.value}ms`
+  settings.value.maxSingleKeys = maxSingleKeys.value
 })
 
 function compareByDefaults(current: Partial<Settings>, defaults: Settings): boolean {
@@ -124,7 +127,6 @@ function saveSettings() {
   const values = getPlainSettings()
   values.name = selectedPresetName.value
   window.ipcRenderer.invoke('settings:update', values)
-  if (values.name) savePreset(values)
   originalSettings.value = values
   locale.value = selectedLocale.value
   showSuccess()
@@ -329,6 +331,16 @@ onBeforeUnmount(() => {
           <el-slider :format-tooltip="(val: number) => `${val}ms`"
             @dblclick="settings.eventDisplayDuration = defaultSettings.eventDisplayDuration"
             v-model="settings.eventDisplayDuration" :min="500" :max="5000" :step="100" />
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <h3>{{ t('settings.input.maxSingleKeys') }}</h3>
+
+        <div class="settings-item">
+          <el-slider :format-tooltip="(val: number) => `${val}`"
+            @dblclick="maxSingleKeys = defaultSettings.maxSingleKeys || 1"
+            v-model="maxSingleKeys" :min="1" :max="7" :step="1" />
         </div>
       </div>
     </div>
