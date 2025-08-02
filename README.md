@@ -8,26 +8,25 @@
 
 ## Why use Keysee?
 
-During tutorials or live demos, it's not always clear what keys or buttons are being used.
-Keysee provides simple, clear input visuals without distracting from the main content.
+When watching tutorials or live demos, it's often unclear what keys or key combinations are being pressed. Keysee displays keyboard input and key combinations in real-time, with optional visual effects for mouse clicks.
 
 ## Features
 
-- Displays keys, mouse buttons, and scroll events
+- Displays pressed keys and key combinations
+- Shows scroll wheel interactions
 - Filters out noise (like repeated keys)
-- Detects combos (e.g. Ctrl + Shift + Z)
 - Optional ripple effects for mouse clicks
-- Customizable appearance
+- Customizable appearance with saveable presets
 
 ## Notes
 - ⚠️ Some antivirus software may flag this app because it uses system hooks to detect keyboard and mouse input.
 The code is open-source, and nothing is sent anywhere — no tracking, no network activity.
-If you're unsure, you can [you can build it yourself](BUILD.md). Totally up to you.
-- For now, the app is available for Windows 10/11 only.
+If you're unsure, [you can build it yourself](BUILD.md). Totally up to you.
+- Currently available for Windows 10/11 only.
 
 ## Download
 
-[Dwonload for Windows 10+](https://github.com/Sakhnovkrg/Keysee-App/releases/latest)
+[Download for Windows 10+](https://github.com/Sakhnovkrg/Keysee-App/releases/latest)
 
 ## License
 

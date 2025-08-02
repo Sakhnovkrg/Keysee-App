@@ -31,7 +31,7 @@ const localeOptions: Record<string, string> = {
   'ru-RU': 'Русский'
 }
 
-watch(selectedLocale, (newLocale) => {
+watch(selectedLocale, (newLocale: string) => {
   if (settings.value) {
     settings.value.language = newLocale
   }
@@ -145,6 +145,7 @@ onMounted(async () => {
   await loadSettings()
   await loadPresets()
   selectedPresetName.value = settings.value.name || ''
+
   originalSettings.value = getPlainSettings()
   isLoaded.value = true
 
@@ -154,7 +155,6 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleSaveShortcut)
 })
-
 </script>
 
 <template>

@@ -7,14 +7,17 @@ export async function loadPresets() {
   presets.value = await window.ipcRenderer.invoke('presets:get')
 }
 
+// export async function savePreset(preset: Settings) {
+//   await window.ipcRenderer.invoke('presets:create', preset)
+// }
 export async function savePreset(preset: Settings) {
-  await window.ipcRenderer.invoke('presets:create', preset)
+  const { language, ...presetWithoutLanguage } = preset
+  await window.ipcRenderer.invoke('presets:create', presetWithoutLanguage)
 }
 
 loadPresets()
 
 export async function deletePreset(preset: Settings) {
-  //ElMessage({ message: 'sdf', grouping: true, type: 'success', duration: 1000 })
   await window.ipcRenderer.invoke('presets:delete', preset)
   await loadPresets()
 }

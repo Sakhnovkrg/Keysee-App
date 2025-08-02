@@ -112,7 +112,6 @@ ipcMain.handle('presets:delete', (_event, payload) => {
   const filePath = path.join(folderPath, `${payload.name}.json`)
   fs.unlink(filePath, (err) => {
     console.log(err);
-    // здесь может быть обработка ошибки
   })
 })
 ipcMain.handle('presets:open', () => {
