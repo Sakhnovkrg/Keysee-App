@@ -15,9 +15,7 @@ Keystrokes and mouse clicks are often invisible during tutorials and live demos.
 - 🎨 Customizable appearance with saveable presets
 
 ## Security & Compatibility
-- 🛡️ Each release includes a VirusTotal scan report for transparency.
-The code is open-source with no tracking or data collection (only checks for updates).
-If you prefer, [you can build it yourself](BUILD.md).
+- 🛡️ Each release includes a VirusTotal scan report for transparency. The code is open-source with no telemetry or user tracking (minimal network use for GitHub update checks only). If you prefer, [you can build it yourself](BUILD.md).
 - 🪟 Currently available for Windows 10/11 only.
 
 ## Download
