@@ -133,7 +133,7 @@ h1 {
   position: fixed;
   left: 0;
   top: 0;
-  width: 100%;
+  width: 100vw;
   z-index: 100;
   transition: 0.15s ease;
 }
