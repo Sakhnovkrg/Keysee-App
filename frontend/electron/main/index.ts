@@ -164,8 +164,8 @@ function updateTrayMenu() {
       checked: off,
       click: (menuItem) => {
         if (!backendProcess) return;
-        const command = menuItem.checked ? 'disable\n' : 'enable\n'
-        backendProcess.stdin.write(command)
+        const command = { type: menuItem.checked ? 'disable' : 'enable' }
+        backendProcess.stdin.write(JSON.stringify(command) + '\n')
         off = !menuItem.checked
       }
     },
