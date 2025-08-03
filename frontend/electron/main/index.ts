@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, Tray, Menu, dialog } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, ipcRenderer, Tray, Menu, dialog, MenuItem } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -20,6 +20,8 @@ let tray: Tray | null = null
 let win: BrowserWindow | null = null
 let backendProcess: ChildProcess | null = null
 let locale: string | undefined = undefined
+let off = false
+let activityMenuItem: MenuItem | null = null
 
 const APP_DATA_DIST = app.getPath('userData')
 const APP_ROOT = path.join(__dirname, '../..')
@@ -152,21 +154,25 @@ async function createWindow() {
 function updateTrayMenu() {
   if (!tray) return;
   const menu = Menu.buildFromTemplate([
-    { label: t(locale, 'tray.settings'), click: createSettingsWindow },
-    { label: t(locale, 'tray.about'), click: createAboutWindow },
-    { type: 'separator' },
+    { id: 'settings', label: t(locale, 'tray.settings'), click: createSettingsWindow },
+    { id: 'about', label: t(locale, 'tray.about'), click: createAboutWindow },
+    { id: 'separator', type: 'separator' },
     {
+      id: 'off',
       label: t(locale, 'tray.off'),
       type: 'checkbox',
-      checked: true,
+      checked: off,
       click: (menuItem) => {
-        if (menuItem.checked) launchBackend()
-        else cleanupBackend()
-      },
+        if (!backendProcess) return;
+        const command = menuItem.checked ? 'disable\n' : 'enable\n'
+        backendProcess.stdin.write(command)
+        off = !menuItem.checked
+      }
     },
     { label: t(locale, 'tray.quit'), click: () => app.quit() },
   ]);
   tray.setContextMenu(menu);
+  activityMenuItem = menu.getMenuItemById('off')
 }
 
 function createTray() {
@@ -216,6 +222,15 @@ function launchBackend() {
     for (let i = 0; i < lines.length - 1; i++) {
       try {
         const event = JSON.parse(lines[i])
+        
+        // Activity (by F1) tracking
+        if (event?.type === 'activityChanged') {
+          off = !event.enabled // true, если выключено
+          if (activityMenuItem) {
+            activityMenuItem.checked = !event.enabled
+          }
+        }
+
         if (win) {
           win.webContents.send('input-event', event)
         }

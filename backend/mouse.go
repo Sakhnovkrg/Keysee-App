@@ -24,7 +24,7 @@ type MSLLHOOKSTRUCT struct {
 }
 
 func MouseProc(nCode int, wParam uintptr, lParam uintptr) uintptr {
-	if nCode != 0 {
+	if nCode != 0 || !active {
 		return CallNextHook(nCode, wParam, lParam)
 	}
 

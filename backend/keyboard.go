@@ -14,6 +14,7 @@ const (
 	VK_CONTROL    = 0x11
 	VK_MENU       = 0x12
 	VK_LWIN       = 0x5B
+	VK_F1					= 0x70
 )
 
 type KBDLLHOOKSTRUCT struct {
@@ -100,6 +101,16 @@ func KeyboardProc(nCode int, wParam uintptr, lParam uintptr) uintptr {
 			return CallNextHook(nCode, wParam, lParam)
 		}
 		knownKeyState[vk] = true
+
+		// F1 Handling
+		if vk == 0x70 {
+			active = !active
+			sendStateToFrontend()
+		}
+
+		if !active {
+			return CallNextHook(nCode, wParam, lParam)
+		}
 
 		event := KeyEvent{
 			Type: "keyboard",
