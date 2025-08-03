@@ -1,0 +1,42 @@
+
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0H1920V1080H0V0Z" fill="black"/>
+  
+  <g transform="translate(960, 540)">
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0;360" dur="2s" repeatCount="indefinite"/>
+      
+      <circle cx="0" cy="-40" r="6" fill="#409eff" opacity="0.8">
+        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      
+      <circle cx="28.28" cy="-28.28" r="6" fill="#409eff" opacity="0.7">
+        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite" begin="0.25s"/>
+      </circle>
+      
+      <circle cx="40" cy="0" r="6" fill="#409eff" opacity="0.6">
+        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+      </circle>
+      
+      <circle cx="28.28" cy="28.28" r="6" fill="#409eff" opacity="0.5">
+        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite" begin="0.75s"/>
+      </circle>
+      
+      <circle cx="0" cy="40" r="6" fill="#409eff" opacity="0.4">
+        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite" begin="1s"/>
+      </circle>
+      
+      <circle cx="-28.28" cy="28.28" r="6" fill="#409eff" opacity="0.3">
+        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite" begin="1.25s"/>
+      </circle>
+      
+      <circle cx="-40" cy="0" r="6" fill="#409eff" opacity="0.2">
+        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+      </circle>
+      
+      <circle cx="-28.28" cy="-28.28" r="6" fill="#409eff" opacity="0.1">
+        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite" begin="1.75s"/>
+      </circle>
+    </g>
+  </g>
+</svg>
