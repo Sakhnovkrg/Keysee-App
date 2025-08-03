@@ -155,6 +155,15 @@ function updateTrayMenu() {
     { label: t(locale, 'tray.settings'), click: createSettingsWindow },
     { label: t(locale, 'tray.about'), click: createAboutWindow },
     { type: 'separator' },
+    {
+      label: t(locale, 'tray.off'),
+      type: 'checkbox',
+      checked: true,
+      click: (menuItem) => {
+        if (menuItem.checked) launchBackend()
+        else cleanupBackend()
+      },
+    },
     { label: t(locale, 'tray.quit'), click: () => app.quit() },
   ]);
   tray.setContextMenu(menu);
