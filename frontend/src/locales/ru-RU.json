@@ -49,6 +49,15 @@
             "middleButton": "Средней",
             "rightButton": "Правой"
         },
+        "hotkeys": {
+            "groupTitle": "Горячие клавиши",
+            "keys": [
+                {
+                    "key": "F1",
+                    "value": "Отключить/включить активность"
+                }
+            ]
+        },
         "general": {
             "backgroundColor": "Фон",
             "textColor": "Текст",

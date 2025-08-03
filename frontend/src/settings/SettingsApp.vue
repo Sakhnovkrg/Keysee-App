@@ -5,7 +5,7 @@ import { usePresets } from '../composables/usePresets'
 import { ElMessage } from 'element-plus'
 import SettingsPresets from './SettingsPresets.vue'
 import { useI18n } from '../composables/useI18n'
-const { t, locale } = useI18n()
+const { t, tm, rt, locale } = useI18n()
 
 const { settings, loadSettings, setSettings } = useSettings()
 const { presets, loadPresets, savePreset, deletePreset, openFolder } = usePresets()
@@ -392,6 +392,17 @@ onBeforeUnmount(() => {
             <el-color-picker :predefine="[defaultSettings.rippleColorRight]" v-model="settings.rippleColorRight"
               :disabled="rippleDisabled" />
             <span>{{ t('settings.ripples.rightButton') }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="settings-group">
+      <h2>{{ t('settings.hotkeys.groupTitle') }}</h2>
+      <div :class="{ disabled: rippleDisabled }">
+        <div class="settings-grid" v-for="(point, index) in (tm('settings.hotkeys.keys'))">
+          <h3>{{ rt(point.value) }}</h3>
+          <div style="align-self: center; font-weight: 700">
+            {{ rt(point.key) }}
           </div>
         </div>
       </div>
