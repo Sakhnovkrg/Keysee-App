@@ -406,6 +406,13 @@ h1 {
 
 .team-member__username {
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-member__username .flag {
+  height: 16px;
 }
 
 .team-member__role {
