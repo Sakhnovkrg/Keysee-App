@@ -116,8 +116,15 @@
           Keystroke visualizer for your tutorials
         </h1>
 
-        <img src="./assets/img/video.svg" class="site-header__video">
-        <video style="display: none;" class="site-header__video" autoplay loop muted playsinline>
+        <img src="./assets/img/video.svg" class="site-header__video" />
+        <video
+          style="display: none"
+          class="site-header__video"
+          autoplay
+          loop
+          muted
+          playsinline
+        >
           <source src="./assets/video/video.mp4" type="video/mp4" />
         </video>
         <div class="site-header__laptop-base"></div>
@@ -287,7 +294,12 @@
           <div data-aos-anchor-placement="bottom" data-aos="fade-right">
             <div class="team-member">
               <div class="avatar">
-                <img class="avatar__img" width="128" height="128" src="assets/img/dsg.jpg" />
+                <img
+                  class="avatar__img"
+                  width="128"
+                  height="128"
+                  src="assets/img/dsg.jpg"
+                />
               </div>
               <div class="team-member__username">Sakhnovkrg</div>
               <div class="team-member__role">Creator</div>
@@ -311,7 +323,12 @@
           <div data-aos-anchor-placement="bottom" data-aos="fade-left">
             <div class="team-member">
               <div class="avatar">
-                <img class="avatar__img" width="128" height="128" src="assets/img/Perfect03.jpg" />
+                <img
+                  class="avatar__img"
+                  width="128"
+                  height="128"
+                  src="assets/img/Perfect03.jpg"
+                />
               </div>
               <div class="team-member__username">Perfect03</div>
               <div class="team-member__role">Core contributor</div>
@@ -375,6 +392,35 @@
 
       document.addEventListener("DOMContentLoaded", updateNavbarScrollState);
       window.addEventListener("scroll", updateNavbarScrollState);
+
+      function initVideoPreloader() {
+        const img = document.querySelector(".site-header__video:not(video)");
+        const video = document.querySelector("video.site-header__video");
+
+        if (!img || !video) {
+          console.warn("Video preloader: elements not found");
+          return;
+        }
+
+        function switchToVideo() {
+          img.style.display = "none";
+          video.style.display = "block";
+        }
+
+        if (video.readyState >= 3) {
+          switchToVideo();
+        } else {
+          video.addEventListener("canplaythrough", switchToVideo, {
+            once: true,
+          });
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initVideoPreloader);
+      } else {
+        initVideoPreloader();
+      }
     </script>
 
     <script src="./assets/libs/aos/aos.js"></script>
