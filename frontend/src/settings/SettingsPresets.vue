@@ -7,14 +7,13 @@ const { t } = useI18n()
 
 const emit = defineEmits()
 const props = defineProps<{
-  default: Settings,
   presets: Settings[],
   current?: string,
   editing?: boolean
 }>()
 
 const createdPreset = ref('')
-const selectedPreset = ref() as Ref<string>
+const selectedPreset = ref() as Ref<string|undefined>
 const createdPresetError = ref(false)
 const createdPresetInput = ref() as Ref<HTMLInputElement>
 
@@ -26,6 +25,11 @@ const create = () => {
   setTimeout(() => {
     createdPresetInput.value[createdPreset.value?.length ? 'select' : 'focus']()
   }, 350)
+}
+
+const restore = () => {
+  selectedPreset.value = undefined
+  emit('restore')
 }
 
 const confirm = () => {
@@ -49,8 +53,7 @@ function select(pres: Settings) {
 function deletePreset(preset: Settings) {
   emit('delete', JSON.parse(JSON.stringify(preset)))
   if (JSON.stringify(preset) == selectedPreset.value) {
-    selectedPreset.value = JSON.stringify(props.default)
-    emit('set', JSON.stringify(props.default))
+    restore()
   }
 }
 
@@ -76,11 +79,11 @@ watch(props, () => {
     <div :class="['settings-item', 'presets', creating ? 'creating' : 'selecting']">
       <el-select v-model="selectedPreset" class="presets__select" @change="select" :placeholder="t('settings.generalSettings.presetSelectPlaceholder')" :no-data-text="t('settings.noData')">
         <template #label="{ label, value }">
-        <div style="display: flex"><div style="overflow: hidden; text-overflow: ellipsis; max-width: 92%; margin-right: 4px">{{ label }}</div><span :class="['editing', (editing) && 'visible']">*</span></div>
-      </template>
-        <el-option v-for="preset in [props.default, ...props.presets]" :key="JSON.stringify(preset)" :label="preset.name || 'Default'" :value="JSON.stringify(preset)">
+          <div style="display: flex"><div style="overflow: hidden; text-overflow: ellipsis; max-width: 92%; margin-right: 4px">{{ label }}</div><span :class="['editing', (editing) && 'visible']">*</span></div>
+        </template>
+        <el-option v-for="preset in presets" :key="JSON.stringify(preset)" :label="preset.name" :value="JSON.stringify(preset)">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span>{{ preset.name || 'Default' }}<span :class="['editing', (editing && preset.name == current) && 'visible']"> *</span></span>
+          <span>{{ preset.name }}<span :class="['editing', (editing && preset.name == current) && 'visible']"> *</span></span>
           <el-popconfirm :confirmButtonText="t('ui.popconfirm.confirm')" :cancelButtonText="t('ui.popconfirm.cancel')"
             @confirm="deletePreset(preset)" :title="t('settings.generalSettings.presetDelete')">
             <template #reference v-if="preset.name">
@@ -110,6 +113,9 @@ watch(props, () => {
           <path d="M15.2 3C15.7275 3.00751 16.2307 3.22317 16.6 3.6L20.4 7.4C20.7768 7.76926 20.9925 8.27246 21 8.8V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H15.2Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M17 21V14C17 13.7348 16.8946 13.4804 16.7071 13.2929C16.5196 13.1054 16.2652 13 16 13H8C7.73478 13 7.48043 13.1054 7.29289 13.2929C7.10536 13.4804 7 13.7348 7 14V21M7 3V7C7 7.26522 7.10536 7.51957 7.29289 7.70711C7.48043 7.89464 7.73478 8 8 8H15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
+      </el-icon>
+      <el-icon @click="restore" :size="18" style="cursor: pointer" :title="t('settings.restoreDefaults')">
+        <svg focusable="false" data-icon="rollback" width="1em" height="1em" fill="currentColor" aria-hidden="true" viewBox="64 64 896 896"><path d="M793 242H366v-74c0-6.7-7.7-10.4-12.9-6.3l-142 112a8 8 0 000 12.6l142 112c5.2 4.1 12.9.4 12.9-6.3v-74h415v470H175c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h618c35.3 0 64-28.7 64-64V306c0-35.3-28.7-64-64-64z"></path></svg>
       </el-icon>
     </div>
   </div>

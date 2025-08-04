@@ -117,10 +117,15 @@ async function removePreset(pres: Settings) {
 }
 
 async function setPreset (pres: string) {
-  const parsed = JSON.parse(pres)
-  selectedPresetName.value = parsed.name || ''
-  delete parsed.name
-  setSettings(parsed)
+  const preset = JSON.parse(pres)
+  selectedPresetName.value = preset.name || ''
+  delete preset.name
+  setSettings(preset)
+}
+
+function restoreSettings() {
+  selectedPresetName.value = ''
+  setSettings(defaultSettings)
 }
 
 function saveSettings() {
@@ -173,11 +178,11 @@ onBeforeUnmount(() => {
       </div>
       <SettingsPresets 
         :presets="[...presets]" 
-        :default="defaultSettings"
         :current="selectedPresetName"
         :editing="presetEditing"
-        @create="createPreset" 
-        @set="setPreset" 
+        @create="createPreset"
+        @set="setPreset"
+        @restore="restoreSettings"
         @delete="removePreset" 
         @open="openFolder" 
       />
