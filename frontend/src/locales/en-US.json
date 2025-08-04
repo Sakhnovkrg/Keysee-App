@@ -49,6 +49,11 @@
             "middleButton": "Middle",
             "rightButton": "Right"
         },
+        "hotkeys": {
+            "groupTitle": "Hotkeys",
+            "keys": [
+            ]
+        },
         "general": {
             "backgroundColor": "Background",
             "textColor": "Text",

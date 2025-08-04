@@ -49,6 +49,11 @@
             "middleButton": "Средней",
             "rightButton": "Правой"
         },
+        "hotkeys": {
+            "groupTitle": "Горячие клавиши",
+            "keys": [
+            ]
+        },
         "general": {
             "backgroundColor": "Фон",
             "textColor": "Текст",

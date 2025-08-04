@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, Tray, Menu, dialog } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, Tray, Menu, dialog, MenuItem } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -6,6 +6,7 @@ import os from 'node:os'
 import fs from 'node:fs'
 import { spawn } from 'child_process'
 import store from './store'
+import { type InputEvent, type KeyboardEvent } from './types'
 import { createSettingsWindow } from './settings'
 import { createAboutWindow } from './about'
 import semver from 'semver'
@@ -20,6 +21,8 @@ let tray: Tray | null = null
 let win: BrowserWindow | null = null
 let backendProcess: ChildProcess | null = null
 let locale: string | undefined = undefined
+let off = false
+let activityMenuItem: MenuItem | null = null
 
 const APP_DATA_DIST = app.getPath('userData')
 const APP_ROOT = path.join(__dirname, '../..')
@@ -152,12 +155,23 @@ async function createWindow() {
 function updateTrayMenu() {
   if (!tray) return;
   const menu = Menu.buildFromTemplate([
-    { label: t(locale, 'tray.settings'), click: createSettingsWindow },
-    { label: t(locale, 'tray.about'), click: createAboutWindow },
-    { type: 'separator' },
+    { id: 'settings', label: t(locale, 'tray.settings'), click: createSettingsWindow },
+    { id: 'about', label: t(locale, 'tray.about'), click: createAboutWindow },
+    { id: 'separator', type: 'separator' },
+    {
+      id: 'off',
+      label: t(locale, 'tray.off'),
+      type: 'checkbox',
+      checked: off,
+      click: (menuItem) => {
+        off = menuItem.checked
+        win.webContents.send('hide', off)
+      }
+    },
     { label: t(locale, 'tray.quit'), click: () => app.quit() },
   ]);
   tray.setContextMenu(menu);
+  activityMenuItem = menu.getMenuItemById('off')
 }
 
 function createTray() {
@@ -206,7 +220,11 @@ function launchBackend() {
 
     for (let i = 0; i < lines.length - 1; i++) {
       try {
-        const event = JSON.parse(lines[i])
+        const event = JSON.parse(lines[i]) as InputEvent
+
+        // hotkeys handling
+        if (event.type == 'keyboard') hotkeysHandling(event as KeyboardEvent)
+
         if (win) {
           win.webContents.send('input-event', event)
         }
@@ -249,6 +267,22 @@ function cleanupBackend() {
   }
 
   backendProcess = null;
+}
+
+function hotkeysHandling(event: KeyboardEvent) {
+  switch(event.vk) {
+    case 123: // F12 (Turn on/off)
+      if (event.modifiers.ctrl && event.modifiers.shift) {
+        off = !off
+        win.webContents.send('hide', off)
+        if (activityMenuItem) {
+          activityMenuItem.checked = off
+        }
+      }
+      return
+    default:
+      return
+  }
 }
 
 function shouldCheckForUpdates(): boolean {
