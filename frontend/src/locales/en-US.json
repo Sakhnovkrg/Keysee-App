@@ -8,7 +8,7 @@
         "save": "Save",
         "noData": "List is empty",
         "generalSettings": {
-            "groupTitle": "General settings",
+            "groupTitle": "General",
             "language": "Language",
             "languagePlaceholder": "Select language",
             "presetName": "Presets",
@@ -16,6 +16,7 @@
             "presetInputPlaceholder": "Preset name",
             "presetAccept": "Save preset",
             "presetDelete": "Delete preset",
+            "presetOpen": "Open presets folder",
             "presetCancel": "Cancel",
             "presetCreate": "Create preset with current settings"
         },
@@ -23,9 +24,9 @@
             "groupTitle": "Overlay appearance",
             "backgroundColor": "Background",
             "position": "Position",
-            "positionLeft": "Align left",
-            "positionCenter": "Align center",
-            "positionRight": "Align right",
+            "positionLeft": "Left",
+            "positionCenter": "Center",
+            "positionRight": "Right",
             "bottomOffset": "Bottom offset",
             "sideOffset": "Side offset"
         },
@@ -36,16 +37,22 @@
             "mouse": "Mouse",
             "fontSize": "Font size",
             "font": "Font",
-            "eventDisplayTime": "Event display time"
+            "eventDisplayTime": "Display time",
+            "maxSingleKeys": "Single key display limit"
         },
         "ripples": {
-            "groupTitle": "Mouse click ripples",
-            "rippleSize": "Ripple size",
-            "rippleTransparency": "Ripple transparency",
-            "rippleDuration": "Ripple duration",
+            "groupTitle": "Click ripples",
+            "rippleSize": "Size",
+            "rippleTransparency": "Transparency",
+            "rippleDuration": "Duration",
             "leftButton": "Left",
             "middleButton": "Middle",
             "rightButton": "Right"
+        },
+        "hotkeys": {
+            "groupTitle": "Hotkeys",
+            "keys": [
+            ]
         },
         "general": {
             "backgroundColor": "Background",
@@ -55,7 +62,8 @@
         }
     },
     "about": {
-        "wtf": "Keysee is a free and open-source tool for visualizing keyboard and mouse input. Useful for tutorials and software demonstrations.",
+        "wtf": "Keysee is a free and open-source tool that shows your keystrokes and mouse clicks on screen during tutorials and demos.",
+        "website": "Website",
         "github": "GitHub",
         "donate": "Donate"
     },

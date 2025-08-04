@@ -5,10 +5,10 @@ import { usePresets } from '../composables/usePresets'
 import { ElMessage } from 'element-plus'
 import SettingsPresets from './SettingsPresets.vue'
 import { useI18n } from '../composables/useI18n'
-const { t, locale, systemLocale } = useI18n()
+const { t, tm, rt, locale } = useI18n()
 
 const { settings, loadSettings, setSettings } = useSettings()
-const { presets, loadPresets, savePreset, deletePreset } = usePresets()
+const { presets, loadPresets, savePreset, deletePreset, openFolder } = usePresets()
 
 const isLoaded = ref(false)
 const originalSettings = ref() as Ref<Settings>
@@ -22,6 +22,7 @@ const overlayBottomOffset = ref(0)
 const overlaySideOffset = ref(0)
 const rippleSize = ref(0)
 const rippleDuration = ref(0)
+const maxSingleKeys = ref(1)
 const rippleDisabled = computed(() => !settings.value?.rippleEnabled)
 const selectedLocale = ref(locale.value)
 const selectedPresetName = ref('')
@@ -31,7 +32,7 @@ const localeOptions: Record<string, string> = {
   'ru-RU': 'Русский'
 }
 
-watch(selectedLocale, (newLocale) => {
+watch(selectedLocale, (newLocale: string) => {
   if (settings.value) {
     settings.value.language = newLocale
   }
@@ -49,6 +50,7 @@ watchEffect(() => {
   overlaySideOffset.value = parseInt(settings.value.overlaySideOffset)
   rippleSize.value = parseInt(settings.value.rippleSize)
   rippleDuration.value = parseInt(settings.value.rippleDuration)
+  maxSingleKeys.value = settings.value.maxSingleKeys || 1
 })
 
 watchEffect(() => {
@@ -63,6 +65,7 @@ watchEffect(() => {
   settings.value.overlaySideOffset = `${overlaySideOffset.value}px`
   settings.value.rippleSize = `${rippleSize.value}px`
   settings.value.rippleDuration = `${rippleDuration.value}ms`
+  settings.value.maxSingleKeys = maxSingleKeys.value
 })
 
 function compareByDefaults(current: Partial<Settings>, defaults: Settings): boolean {
@@ -75,9 +78,16 @@ function compareExceptName(current: Partial<Settings>, defaults: Settings): bool
   return keys.every(key => JSON.stringify(current[key]) === JSON.stringify(defaults[key]))
 }
 
-const applyDisabled = computed(() => {
+const notChanged = computed(() => {
   if (!settings.value || !originalSettings.value) return true
   return compareExceptName(settings.value, originalSettings.value)
+})
+
+const presetEditing = computed(() => {
+  const preset = presets.value.find(el => el.name == selectedPresetName.value)
+  if (!preset) return false
+  const keys = Object.keys(preset).filter(el => el != 'name') as (keyof Settings)[]
+  return !keys.every(key => JSON.stringify(preset[key]) === JSON.stringify(settings.value[key]))
 })
 
 const restoreDisabled = computed(() => {
@@ -107,10 +117,15 @@ async function removePreset(pres: Settings) {
 }
 
 async function setPreset (pres: string) {
-  const parsed = JSON.parse(pres)
-  selectedPresetName.value = parsed.name || ''
-  delete parsed.name
-  setSettings(parsed)
+  const preset = JSON.parse(pres)
+  selectedPresetName.value = preset.name || ''
+  delete preset.name
+  setSettings(preset)
+}
+
+function restoreSettings() {
+  selectedPresetName.value = ''
+  setSettings(defaultSettings)
 }
 
 function saveSettings() {
@@ -137,6 +152,7 @@ onMounted(async () => {
   await loadSettings()
   await loadPresets()
   selectedPresetName.value = settings.value.name || ''
+
   originalSettings.value = getPlainSettings()
   isLoaded.value = true
 
@@ -146,7 +162,6 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleSaveShortcut)
 })
-
 </script>
 
 <template>
@@ -161,7 +176,16 @@ onBeforeUnmount(() => {
           </el-select>
         </div>
       </div>
-      <SettingsPresets :presets="[...presets]" :default="defaultSettings" :current="selectedPresetName" @create="createPreset" @set="setPreset" @delete="removePreset" />
+      <SettingsPresets 
+        :presets="[...presets]" 
+        :current="selectedPresetName"
+        :editing="presetEditing"
+        @create="createPreset"
+        @set="setPreset"
+        @restore="restoreSettings"
+        @delete="removePreset" 
+        @open="openFolder" 
+      />
     </div>
 
     <div class="settings-group">
@@ -314,6 +338,16 @@ onBeforeUnmount(() => {
             v-model="settings.eventDisplayDuration" :min="500" :max="5000" :step="100" />
         </div>
       </div>
+
+      <div class="settings-grid">
+        <h3>{{ t('settings.input.maxSingleKeys') }}</h3>
+
+        <div class="settings-item">
+          <el-slider :format-tooltip="(val: number) => `${val}`"
+            @dblclick="maxSingleKeys = defaultSettings.maxSingleKeys || 1"
+            v-model="maxSingleKeys" :min="1" :max="7" :step="1" />
+        </div>
+      </div>
     </div>
     <div class="settings-group">
       <h2>{{ t('settings.ripples.groupTitle') }}</h2>
@@ -367,9 +401,20 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </div>
+    <div class="settings-group" v-if="tm('settings.hotkeys.keys')?.length">
+      <h2>{{ t('settings.hotkeys.groupTitle') }}</h2>
+      <div :class="{ disabled: rippleDisabled }">
+        <div class="settings-grid" v-for="(point, index) in (tm('settings.hotkeys.keys'))">
+          <h3>{{ rt(point.value) }}</h3>
+          <div style="align-self: center; font-weight: 700">
+            {{ rt(point.key) }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="settings-footer">
-    <el-button :disabled="applyDisabled" type="primary" @click="saveSettings">
+    <el-button :disabled="notChanged" type="primary" @click="saveSettings">
       {{ t('settings.save') }} (Ctrl + S)
     </el-button>
   </div>

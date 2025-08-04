@@ -17,19 +17,17 @@ onMounted(async () => {
     <div class="header">
       <img style="width: 80px;" src="../assets/keysee.svg" class="logo" alt="Keysee logo" />
     </div>
-    <div class="version">v1.1.0</div>
-
+    <div class="version">v1.2.0</div>
 
     <p>{{ t('about.wtf') }}</p>
 
     <div class="links">
+      <a href="https://sakhnovkrg.github.io/Keysee-App/" target="_blank">{{ t('about.website') }}</a>
       <a href="https://github.com/Sakhnovkrg/Keysee-App" target="_blank">{{ t('about.github') }}</a>
       <a href="https://www.paypal.com/paypalme/sakhnovkrg">{{ t('about.donate') }}</a>
     </div>
   </div>
 </template>
-
-
 <style>
 html,
 body,
@@ -43,7 +41,7 @@ body,
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* по вертикали */
+  justify-content: center;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -76,5 +74,4 @@ body,
 .links a:hover {
   text-decoration: underline;
 }
-
 </style>
