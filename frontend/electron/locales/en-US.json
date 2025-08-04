@@ -22,6 +22,7 @@
     "tray": {
         "about": "About",
         "settings": "Settings",
+        "off": "Turn off (Ctrl+Shift+F12)",
         "quit": "Quit"
     }
 }

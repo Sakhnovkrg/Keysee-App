@@ -12,6 +12,8 @@ const { clickRipples, handleRipple } = useRipple()
 type EventManagerType = ReturnType<typeof useEventManager>
 const eventManagerInstance = ref<EventManagerType | null>(null)
 
+const isVisible = ref(true)
+
 function createEventManager() {
   return useEventManager({
     displayDuration: settings.value?.eventDisplayDuration ?? 2000,
@@ -59,6 +61,10 @@ onMounted(async () => {
     applyFromSettings(data)
   })
 
+  window.ipcRenderer.on('hide', async (_event, data) => {
+    isVisible.value = !data
+  })
+
   if (settings.value) applyFromSettings(settings.value)
 })
 
@@ -70,12 +76,12 @@ function getEventClass(e: any): string {
 </script>
 
 <template>
-  <div class="ripples">
+  <div class="ripples" v-if="isVisible">
     <div v-for="r in clickRipples" :key="r.id" class="ripple" :class="`btn-${r.btn}`"
       :style="{ left: r.x + 'px', top: r.y + 'px' }"></div>
   </div>
-
-  <div class="overlay">
+  
+  <div class="overlay" v-if="isVisible">
     <transition name="wrapper-fade">
       <div v-if="events.length" class="events-wrapper">
         <transition-group name="fade" tag="div" class="events">

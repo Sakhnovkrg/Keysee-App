@@ -1,5 +1,5 @@
 import { app } from 'electron'
-import store from './store';
+import store from './settingsStore';
 import ru_RU from '../locales/ru-RU.json'
 import en_US from '../locales/en-US.json'
 
