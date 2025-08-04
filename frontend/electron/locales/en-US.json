@@ -22,7 +22,6 @@
     "tray": {
         "about": "About",
         "settings": "Settings",
-        "off": "Turn off",
         "quit": "Quit"
     }
 }

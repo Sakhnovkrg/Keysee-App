@@ -42,14 +42,9 @@ func handleStdin() {
 
 		switch cmd["type"] {
 		case "exit":
-			active = false
 			running = false
 			procPostQuitMessage.Call(0)
 			close(events)
-		case "disable":
-			active = false
-		case "enable":
-			active = true
 		}
 	}
 }

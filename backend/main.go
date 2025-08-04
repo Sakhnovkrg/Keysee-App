@@ -26,6 +26,7 @@ const (
 
 var (
 	events  = make(chan any, 1000)
+	running = true
 )
 
 func main() {

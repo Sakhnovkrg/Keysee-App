@@ -49,15 +49,6 @@
             "middleButton": "Middle",
             "rightButton": "Right"
         },
-        "hotkeys": {
-            "groupTitle": "Hotkeys",
-            "keys": [
-                {
-                    "key": "F1",
-                    "value": "Turn off/on"
-                }
-            ]
-        },
         "general": {
             "backgroundColor": "Background",
             "textColor": "Text",
