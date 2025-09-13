@@ -12,7 +12,7 @@ export async function loadPresets() {
 }
 
 export async function savePreset(preset: Settings) {
-  const { language, ...presetWithoutLanguage } = preset
+  const { language, snoozeUpdateCheckUntil, ...presetWithoutLanguage } = preset
   await window.ipcRenderer.invoke('presets:create', presetWithoutLanguage)
 }
 
