@@ -1,0 +1,23 @@
+{
+  "lastCommit": "e9e5845af07d9f3a7ec7c1d0ea7bd3a207c692dd",
+  "baseUrl": "https://raw.githubusercontent.com/undefined/undefined/",
+  "presets": [
+    {
+      "id": "test-1-preset",
+      "author": "Mr. Test",
+      "description": "It's just 1st testing preset",
+      "tags": [
+        "test",
+        "test-test",
+        "test-test-test"
+      ],
+      "category": "tests",
+      "presetUrl": "test-1-preset/preset.json",
+      "metaUrl": "test-1-preset/meta.json",
+      "screenshotUrl": "test-1-preset/screenshot.webp",
+      "presetHash": "1c8a75bd032170100d3895273ba9d30cf73110e6e46bcd199480ace5c0b1e7d0",
+      "metaHash": "f89d3c2684fafabc8d27708d48287685ce618b1592280c5f8959baacb7b1b5e7",
+      "screenshotHash": "811992460265679b2e5efc99e472214197733d2344a1af1183838b899efe665d"
+    }
+  ]
+}
