@@ -6,19 +6,23 @@
         "restoreDefaults": "Сбросить настройки",
         "restoreDefaultsConfirm": "Вы уверены?",
         "save": "Сохранить",
+        "apply": "Применить",
         "noData": "Список пуст",
         "generalSettings": {
             "groupTitle": "Общее",
             "language": "Язык",
             "languagePlaceholder": "Выберите язык",
-            "presetName": "Пресеты",
-            "presetSelectPlaceholder": "Выберите пресет",
-            "presetInputPlaceholder": "Название пресета",
-            "presetAccept": "Сохранить пресет",
-            "presetDelete": "Удалить пресет",
-            "presetOpen": "Открыть папку пресетов",
-            "presetCancel": "Отмена",
-            "presetCreate": "Создать пресет с текущими настройками"
+            "presets": {
+                "presetName": "Пресеты",
+                "browsePresets": "Просмотр пресетов",
+                "presetSelectPlaceholder": "Выберите пресет",
+                "presetInputPlaceholder": "Название пресета",
+                "presetAccept": "Сохранить пресет",
+                "presetDelete": "Удалить пресет",
+                "presetOpen": "Открыть папку пресетов",
+                "presetCancel": "Отмена",
+                "presetCreate": "Создать пресет с текущими настройками"
+            }
         },
         "overlay": {
             "groupTitle": "Внешний вид оверлея",

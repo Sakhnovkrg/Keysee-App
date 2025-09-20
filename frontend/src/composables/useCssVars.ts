@@ -1,8 +1,8 @@
 import { Settings } from './useSettings'
 
 export function useCssVars() {
-  function applyFromSettings(settings: Settings) {
-    const root = document.documentElement
+  function applyFromSettings(settings: Settings, root?: HTMLElement) {
+    if (!root) root = document.documentElement
 
     const map: Record<string, string | number> = {
       '--font-family': settings.fontFamily,

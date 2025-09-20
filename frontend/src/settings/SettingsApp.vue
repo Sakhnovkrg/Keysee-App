@@ -111,6 +111,14 @@ async function createPreset(name: string) {
   saveSettings()
 }
 
+async function applyPreset(preset: Settings) {
+  savePreset(preset)
+  await loadPresets()
+  selectedPresetName.value = preset.name as string
+  setSettings(preset)
+  saveSettings()
+}
+
 async function removePreset(pres: Settings) {
   await deletePreset(pres)
   showSuccess(t('settings.deleted'))
@@ -182,6 +190,7 @@ onBeforeUnmount(() => {
         :editing="presetEditing"
         @create="createPreset"
         @set="setPreset"
+        @apply="applyPreset"
         @restore="restoreSettings"
         @delete="removePreset" 
         @open="openFolder" 
