@@ -1,35 +1,33 @@
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue'
-import { Settings } from '../../composables/useSettings'
+import { Ref, ref, watch } from 'vue'
 import { useCssVars } from '../../composables/useCssVars'
 import '../../style.css'
-import { getPresets } from './api'
+import { IPreset } from './types'
 
-const visible = defineModel<boolean>('visible')
 const emit = defineEmits()
 const props = defineProps<{
-  preset: Partial<Settings>,
+  preset: IPreset,
 }>()
 
 const { applyFromSettings } = useCssVars()
 
 const root = ref() as Ref<HTMLElement>;
 
-onMounted(() => {
-  applyFromSettings({ ...props.preset, fontSize: '16px' }, root.value)
-})
+watch(props, () => {{
+  applyFromSettings({ ...props.preset.data, fontSize: '16px' }, root.value)
+}})
 
 </script>
 
 <template>
   <div class="preset">
     <div style="display: flex; align-items: center; justify-content: space-between;">
-      <div><strong>{{ preset.name }}</strong> (Testing)</div>
-      <div class="preset__tags">
-        <el-tag size="small" :color="preset.singleKeyBgColor">School</el-tag>
-        <el-tag size="small" :color="preset.singleKeyBgColor">qweqw</el-tag>
+      <div><strong>{{ preset.data?.name }}</strong> <span v-if="preset.meta.category">({{ preset.meta?.category }})</span></div>
+      <div class="preset__tags" v-if="preset.meta?.tags?.length">
+        <el-tag size="small" v-for="tag in preset.meta?.tags" :color="preset.data?.singleKeyBgColor">{{ tag }}</el-tag>
       </div>
     </div>
+    <div class="preset__description">{{ preset.meta?.description }}</div>
     <div class="preset__items" ref="root">
       <div class="preset__items__keys">
         <transition name="wrapper-fade">
@@ -82,9 +80,9 @@ onMounted(() => {
     </div>
     <el-divider />
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <el-button :color="preset.overlayBackground" :style="{ color: preset.singleKeyTextColor, fontWeight: 600 }"
+      <el-button :color="preset.data?.overlayBackground" :style="{ color: preset.data?.singleKeyTextColor, fontWeight: 600 }"
         @click="emit('apply')">{{ $t('settings.generalSettings.presets.apply') }}</el-button>
-      <div>by <strong>gssfasasfd</strong></div>
+      <div>by <strong>{{ preset.meta?.author }}</strong></div>
     </div>
   </div>
 </template>
@@ -106,6 +104,12 @@ onMounted(() => {
     background: rgba(148, 148, 148, 0.132);
     ;
   }
+}
+
+.preset__description {
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 0.4rem;
 }
 
 .preset__tags {
