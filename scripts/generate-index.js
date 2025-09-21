@@ -4,7 +4,7 @@ import crypto from "crypto";
 import { execSync } from "child_process";
 
 const presetsDir = "presets";
-const baseUrl = `https://raw.githubusercontent.com/${process.env.REPOSITORY}/${process.env.BRANCH}/`;
+const baseUrl = 'https://raw.githubusercontent.com/Sakhnovkrg/Keysee-App/presets/';
 
 function hashFile(filePath) {
   const content = fs.readFileSync(filePath);
@@ -23,16 +23,14 @@ fs.readdirSync(presetsDir, { withFileTypes: true }).forEach((dirent) => {
 
     if (!fs.existsSync(presetPath) || !fs.existsSync(metaPath)) return;
 
+    const preset = JSON.parse(fs.readFileSync(presetPath, "utf-8"));
     const meta = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
 
     presets.push({
       id: dirent.name,
-      name: meta.name,
-      author: meta.author,
-      description: meta.description,
-      tags: meta.tags || [],
-      category: meta.category || null,
-
+      preset: preset,
+      meta: meta,
+      
       presetUrl: `${dirent.name}/preset.json`,
       metaUrl: `${dirent.name}/meta.json`,
       screenshotUrl: fs.existsSync(screenshotPath)
