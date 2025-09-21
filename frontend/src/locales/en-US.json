@@ -6,7 +6,6 @@
         "restoreDefaults": "Restore defaults",
         "restoreDefaultsConfirm": "Are you sure?",
         "save": "Save",
-        "apply": "Apply",
         "noData": "List is empty",
         "generalSettings": {
             "groupTitle": "General",
@@ -14,6 +13,8 @@
             "languagePlaceholder": "Select language",
             "presets": {
                 "browsePresets": "Browse presets",
+                "category": "Category",
+                "apply": "Apply",
                 "presetName": "Presets",
                 "presetSelectPlaceholder": "Select preset",
                 "presetInputPlaceholder": "Preset name",

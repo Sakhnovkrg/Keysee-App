@@ -6,7 +6,6 @@
         "restoreDefaults": "Сбросить настройки",
         "restoreDefaultsConfirm": "Вы уверены?",
         "save": "Сохранить",
-        "apply": "Применить",
         "noData": "Список пуст",
         "generalSettings": {
             "groupTitle": "Общее",
@@ -14,6 +13,8 @@
             "languagePlaceholder": "Выберите язык",
             "presets": {
                 "presetName": "Пресеты",
+                "category": "Категория",
+                "apply": "Применить",
                 "browsePresets": "Просмотр пресетов",
                 "presetSelectPlaceholder": "Выберите пресет",
                 "presetInputPlaceholder": "Название пресета",
