@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref, watch } from 'vue'
+import { Ref, ref, onMounted } from 'vue'
 import { useCssVars } from '../../composables/useCssVars'
 import '../../style.css'
 import { IPreset } from './types'
@@ -13,9 +13,9 @@ const { applyFromSettings } = useCssVars()
 
 const root = ref() as Ref<HTMLElement>;
 
-watch(props, () => {{
+onMounted(() => {
   applyFromSettings({ ...props.preset.data, fontSize: '16px' }, root.value)
-}})
+})
 
 </script>
 
