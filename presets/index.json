@@ -1,5 +1,5 @@
 {
-  "lastCommit": "3536273af89f22e3759b3044a391ecda83d2eec2",
+  "lastCommit": "dcef1a829993bac8c872d3d38c0cce94be8453a9",
   "baseUrl": "https://raw.githubusercontent.com/Sakhnovkrg/Keysee-App/presets/",
   "presets": [
     {
@@ -48,6 +48,53 @@
       "presetHash": "1c8a75bd032170100d3895273ba9d30cf73110e6e46bcd199480ace5c0b1e7d0",
       "metaHash": "f89d3c2684fafabc8d27708d48287685ce618b1592280c5f8959baacb7b1b5e7",
       "screenshotHash": "811992460265679b2e5efc99e472214197733d2344a1af1183838b899efe665d"
+    },
+    {
+      "id": "test-2-preset",
+      "preset": {
+        "overlayBackground": "#CBCB41",
+        "overlayTransparency": "80%",
+        "overlayBorderRadius": "0px",
+        "overlayBottomOffset": "50px",
+        "overlaySideOffset": "15px",
+        "overlayPosition": "right",
+        "singleKeyBgColor": "#181818",
+        "singleKeyTextColor": "#DA70D6",
+        "comboKeyBgColor": "#CBCB41",
+        "comboKeyTextColor": "#181818",
+        "mouseBgColor": "#A074C4",
+        "mouseTextColor": "#181818",
+        "fontSize": "28px",
+        "keyBorderRadius": "0px",
+        "keyBackgroundTransparency": "0%",
+        "fontFamily": "Consolasdsaga",
+        "eventDisplayDuration": 1200,
+        "maxSingleKeys": 1,
+        "rippleEnabled": true,
+        "rippleSize": "47px",
+        "rippleTransparency": 0,
+        "rippleDuration": "300ms",
+        "rippleColorLeft": "#DD7728",
+        "rippleColorMiddle": "#519ABA",
+        "rippleColorRight": "#CC3D42",
+        "name": "hmm"
+      },
+      "meta": {
+        "author": "Mr. Test",
+        "description": "It's just 2nd testing preset",
+        "category": "tests",
+        "tags": [
+          "test",
+          "test-test",
+          "test-test-test"
+        ]
+      },
+      "presetUrl": "test-2-preset/preset.json",
+      "metaUrl": "test-2-preset/meta.json",
+      "screenshotUrl": null,
+      "presetHash": "788f83ae071f142a2c545449b6b4e851b8b9bb68f3a089cb74adfe30b5a14c50",
+      "metaHash": "3b2e62325bbe45baf1e632ecf9c39d730d16cbabf81de6214bcc4969e18a66b3",
+      "screenshotHash": null
     }
   ]
 }
