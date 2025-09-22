@@ -24,7 +24,7 @@ onMounted(() => {
     <div style="display: flex; align-items: center; justify-content: space-between;">
       <div><strong>{{ preset.data?.name }}</strong> <span v-if="preset.meta.category">({{ preset.meta?.category }})</span></div>
       <div class="preset__tags" v-if="preset.meta?.tags?.length">
-        <el-tag size="small" v-for="tag in preset.meta?.tags" :color="preset.data?.singleKeyBgColor">{{ tag }}</el-tag>
+        <el-tag size="small" v-for="tag in preset.meta?.tags">{{ tag }}</el-tag>
       </div>
     </div>
     <div class="preset__description">{{ preset.meta?.description }}</div>
@@ -80,8 +80,7 @@ onMounted(() => {
     </div>
     <el-divider />
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <el-button :color="preset.data?.overlayBackground" :style="{ color: preset.data?.singleKeyTextColor, fontWeight: 600 }"
-        @click="emit('apply')">{{ $t('settings.generalSettings.presets.apply') }}</el-button>
+      <el-button @click="emit('apply')">{{ $t('settings.generalSettings.presets.apply') }}</el-button>
       <div>by <strong>{{ preset.meta?.author }}</strong></div>
     </div>
   </div>
